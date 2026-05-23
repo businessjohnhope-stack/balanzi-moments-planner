@@ -1,0 +1,1531 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BALANZI · Moments &amp; Offers · v5</title>
+<style>
+  :root{
+    --bg:#FFFFFF; --bg-2:#F8F7F4; --bg-3:#EFEDE8;
+    --ink:#0A0908; --ink-2:#1F1D1A;
+    --mid:#4A4642; --light:#7A756F; --faint:#B5B0A8;
+    --line:#E2DDD4; --line-2:#CFC9BE;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased;font-feature-settings:"ss01","cv11"}
+  .layout{display:grid;grid-template-columns:1fr 320px;gap:0;min-height:100vh}
+  @media (max-width:1180px){.layout{grid-template-columns:1fr}aside.sidebar{position:static !important;border-left:none !important;border-top:1px solid var(--line);height:auto !important}}
+  main{padding:36px 40px 80px;max-width:1100px}
+  aside.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;border-left:1px solid var(--line);background:var(--bg-2);padding:28px 22px}
+
+  header.top{margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--ink)}
+  header.top .eyebrow{font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--mid);margin-bottom:8px;font-weight:600}
+  header.top h1{margin:0;font-size:32px;font-weight:800;letter-spacing:-0.025em;line-height:1.05}
+  header.top h1 em{font-style:italic;font-weight:300;color:var(--mid)}
+  header.top .lede{color:var(--mid);font-size:14px;max-width:780px;margin-top:14px;line-height:1.55}
+  header.top .lede strong{color:var(--ink);font-weight:600}
+
+  .principles{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:24px 0 32px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .principles .p{padding:14px 16px;border-right:1px solid var(--line)}
+  .principles .p:last-child{border-right:none}
+  .principles .n{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid);font-weight:700}
+  .principles .t{font-size:14px;font-weight:700;margin-top:4px;line-height:1.3;letter-spacing:-0.005em}
+  .principles .m{font-size:11.5px;color:var(--mid);margin-top:4px;line-height:1.45}
+
+  .catalog-ref{background:var(--bg-2);border:1px solid var(--line);border-radius:6px;padding:14px 18px;margin-bottom:36px;font-size:12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+  .catalog-ref h4{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--mid);font-weight:700;margin:0 0 6px}
+  .catalog-ref ul{margin:0;padding:0;list-style:none}
+  .catalog-ref li{padding:2px 0;font-variant:tabular-nums;color:var(--ink-2)}
+  .catalog-ref li strong{color:var(--ink)}
+
+  /* EVERGREEN BASE */
+  .evergreen-base{background:var(--ink);color:var(--bg);border-radius:8px;padding:24px 26px;margin-bottom:40px}
+  .evergreen-base h2{margin:0 0 6px;font-size:18px;font-weight:800;letter-spacing:-0.01em;color:var(--bg)}
+  .evergreen-base h2 em{font-style:italic;font-weight:300;color:var(--faint);font-size:14px;letter-spacing:0}
+  .evergreen-base .ev-lede{color:var(--faint);font-size:12.5px;margin:0 0 22px;max-width:720px;line-height:1.5}
+  .ev-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 22px}
+  .ev-block h3{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--faint);font-weight:700;margin:0 0 8px;padding-bottom:6px;border-bottom:1px solid #2A2622}
+  .ev-block ul{margin:0;padding:0;list-style:none}
+  .ev-block li{padding:6px 0;font-size:12.5px;color:var(--bg);line-height:1.45;border-bottom:1px dotted #2A2622}
+  .ev-block li:last-child{border-bottom:none}
+  .ev-block li .h{font-weight:600}
+  .ev-block li .n{color:var(--faint);font-size:11px;margin-top:2px;display:block;line-height:1.4}
+  .ev-block li.grad .h::before{content:"✓ ";color:var(--bg);font-weight:800}
+
+  /* MONTH */
+  .month{margin-bottom:48px;border-top:2px solid var(--ink);padding-top:18px}
+  .month-head{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:20px;margin-bottom:18px}
+  .month-name{font-size:24px;font-weight:800;letter-spacing:-0.02em;line-height:1}
+  .month-name .sub{font-size:13px;color:var(--mid);font-weight:400;margin-left:14px;font-style:italic}
+  .month-weeks{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);font-weight:600}
+  .doubledown{background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:6px;margin-bottom:14px;font-size:11.5px;letter-spacing:0.04em;display:flex;align-items:center;gap:10px}
+  .doubledown::before{content:"⫶";font-size:18px;font-weight:800;line-height:1}
+  .doubledown strong{font-weight:800;letter-spacing:0.06em;text-transform:uppercase;font-size:10.5px}
+
+  /* NATURAL PEAK */
+  .natural{background:var(--ink);color:var(--bg);padding:18px 22px;margin-bottom:14px;border-radius:6px}
+  .natural .tag{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);font-weight:700;margin-bottom:8px}
+  .natural .row1{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:baseline;margin-bottom:12px}
+  .natural .name{font-size:18px;font-weight:700;letter-spacing:-0.01em}
+  .natural .when{font-size:11.5px;color:var(--faint);font-variant:tabular-nums}
+  .natural .offer-row{display:grid;grid-template-columns:90px 1fr;gap:14px;padding:10px 0;border-top:1px solid #2A2622}
+  .natural .offer-row .l{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);font-weight:700;padding-top:3px}
+  .natural .offer-row .v{font-size:14px;font-weight:600;line-height:1.4}
+  .natural .offer-row .v em{font-style:italic;font-weight:300;color:var(--faint);font-size:12.5px;display:block;margin-top:3px}
+  .natural .econ{padding:10px 0 0;border-top:1px solid #2A2622;font-size:11.5px;color:var(--faint);margin-top:8px}
+
+  /* MOMENTS GRID */
+  .moments{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:900px){.moments{grid-template-columns:1fr}}
+
+  .moment{background:var(--bg);border:1px solid var(--ink);border-radius:6px;display:flex;flex-direction:column;overflow:hidden;position:relative}
+  .moment.empty{border-style:dashed;border-color:var(--line-2);background:var(--bg-2)}
+  .moment.graduated{background:var(--ink);color:var(--bg)}
+  .moment.graduated *{color:inherit}
+
+  .moment-head{padding:12px 16px;border-bottom:1px solid var(--ink);display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg-3)}
+  .moment.empty .moment-head{background:transparent;border-bottom-style:dashed;border-bottom-color:var(--line-2)}
+  .moment.graduated .moment-head{background:#2A2622;border-bottom-color:#2A2622}
+  .moment-slot{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mid);font-weight:700}
+  .moment.graduated .moment-slot{color:var(--faint)}
+  .moment-status{background:transparent;color:inherit;border:1px solid currentColor;border-radius:3px;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;padding:3px 7px;font-family:inherit;cursor:pointer;font-weight:600}
+
+  .buyer-badge-row{padding:10px 16px;border-bottom:1px solid var(--line);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .moment.graduated .buyer-badge-row{border-bottom-color:#2A2622}
+  .buyer-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:4px 9px;border-radius:3px;font-weight:800;border:1.5px solid var(--ink)}
+  .buyer-badge.gifter{background:var(--ink);color:var(--bg)}
+  .buyer-badge.self{background:transparent;color:var(--ink)}
+  .buyer-badge.both{background:repeating-linear-gradient(135deg,var(--ink) 0,var(--ink) 4px,var(--bg) 4px,var(--bg) 8px);color:var(--ink);background-color:var(--bg);border-color:var(--ink)}
+  .moment.graduated .buyer-badge.gifter{background:var(--bg);color:var(--ink);border-color:var(--bg)}
+  .moment.graduated .buyer-badge.self{background:transparent;color:var(--bg);border-color:var(--bg)}
+  .buyer-meta{font-size:11px;color:var(--mid);font-style:italic;margin-left:auto}
+  .moment.graduated .buyer-meta{color:var(--faint)}
+
+  .offer-block{padding:16px 18px 14px;border-bottom:1px solid var(--ink)}
+  .moment.graduated .offer-block{border-bottom-color:#2A2622}
+  .offer-label{font-size:9.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mid);font-weight:800;margin-bottom:6px}
+  .moment.graduated .offer-label{color:var(--faint)}
+  .offer-headline{font-size:21px;font-weight:800;line-height:1.15;letter-spacing:-0.02em;margin-bottom:6px}
+  .offer-title{font-size:11px;color:var(--light);font-style:italic;letter-spacing:0.04em;margin-top:4px}
+  .moment.graduated .offer-title{color:var(--faint)}
+  .type-tag{display:inline-block;font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;font-weight:800;background:var(--ink);color:var(--bg);padding:3px 8px;border-radius:3px;margin-bottom:8px;vertical-align:middle}
+  .moment.graduated .type-tag{background:var(--bg);color:var(--ink)}
+
+  /* BUNDLE TIERS — the new structural element */
+  .tiers-block{padding:14px 18px;border-bottom:1px solid var(--line);background:var(--bg-2)}
+  .moment.graduated .tiers-block{background:#1A1815;border-bottom-color:#2A2622}
+  .tiers-label{font-size:9.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mid);font-weight:800;margin-bottom:10px}
+  .moment.graduated .tiers-label{color:var(--faint)}
+  .tiers-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .tiers-grid.single{grid-template-columns:1fr}
+  .tier{background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:12px 14px}
+  .moment.graduated .tier{background:#0E0C0A;border-color:#2A2622}
+  .tier-name{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);font-weight:700;margin-bottom:6px}
+  .moment.graduated .tier-name{color:var(--faint)}
+  .tier-skus{font-size:12px;line-height:1.55;color:var(--ink-2);margin-bottom:8px}
+  .moment.graduated .tier-skus{color:var(--bg)}
+  .tier-skus .plus{color:var(--light);display:inline-block;width:12px}
+  .moment.graduated .tier-skus .plus{color:var(--faint)}
+  .tier-price{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding-top:8px;border-top:1px solid var(--line)}
+  .moment.graduated .tier-price{border-top-color:#2A2622}
+  .tier-price .p{font-size:18px;font-weight:800;font-variant:tabular-nums;letter-spacing:-0.01em}
+  .tier-price .cm{font-size:10.5px;color:var(--mid);font-variant:tabular-nums}
+  .moment.graduated .tier-price .cm{color:var(--faint)}
+
+  /* MESSAGE */
+  .message-block{padding:14px 18px;border-bottom:1px solid var(--line)}
+  .moment.graduated .message-block{border-bottom-color:#2A2622}
+  .message-label{font-size:9.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mid);font-weight:800;margin-bottom:4px}
+  .moment.graduated .message-label{color:var(--faint)}
+  .message-text{font-size:15px;font-weight:700;font-style:italic;line-height:1.3;letter-spacing:-0.005em}
+
+  /* MECHANIC */
+  .mechanic-block{padding:12px 18px;border-bottom:1px solid var(--line)}
+  .moment.graduated .mechanic-block{border-bottom-color:#2A2622}
+  .mechanic-label{font-size:9.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mid);font-weight:800;margin-bottom:4px}
+  .moment.graduated .mechanic-label{color:var(--faint)}
+  .mechanic-text{font-size:12.5px;line-height:1.5;color:var(--ink-2)}
+  .moment.graduated .mechanic-text{color:var(--bg)}
+
+  /* ECON */
+  .econ-strip{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line)}
+  .moment.graduated .econ-strip{border-color:#2A2622}
+  .econ-cell{padding:11px 14px;border-right:1px solid var(--line)}
+  .moment.graduated .econ-cell{border-right-color:#2A2622}
+  .econ-cell:last-child{border-right:none}
+  .econ-cell .l{font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid);font-weight:700}
+  .moment.graduated .econ-cell .l{color:var(--faint)}
+  .econ-cell .v{font-size:15px;font-weight:800;margin-top:2px;font-variant:tabular-nums;letter-spacing:-0.01em}
+  .econ-cell .x{font-size:10.5px;color:var(--light);margin-top:2px;line-height:1.35}
+  .moment.graduated .econ-cell .x{color:var(--faint)}
+
+  .tags-row{padding:12px 18px;display:flex;flex-wrap:wrap;gap:5px;border-bottom:1px solid var(--line)}
+  .moment.graduated .tags-row{border-bottom-color:#2A2622}
+  .tag-pill{font-size:10px;letter-spacing:0.04em;border:1px solid var(--ink);background:transparent;padding:3px 8px;border-radius:3px;font-weight:600;color:var(--ink);white-space:nowrap}
+  .moment.graduated .tag-pill{border-color:var(--faint);color:var(--bg)}
+  .tag-pill.solid{background:var(--ink);color:var(--bg)}
+  .moment.graduated .tag-pill.solid{background:var(--bg);color:var(--ink)}
+
+  .meta-block{padding:14px 18px;display:flex;flex-direction:column;gap:10px}
+  .meta-row{display:grid;grid-template-columns:90px 1fr;gap:12px;font-size:12.5px;line-height:1.45}
+  .meta-row .l{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);font-weight:700;padding-top:2px}
+  .moment.graduated .meta-row .l{color:var(--faint)}
+
+  .signal-quote{font-size:12.5px;font-style:italic;color:var(--ink-2);border-left:2px solid var(--ink);padding:2px 0 2px 10px;line-height:1.5}
+  .moment.graduated .signal-quote{border-left-color:var(--bg);color:var(--bg)}
+  .signal-quote .src{display:block;margin-top:3px;font-size:10.5px;color:var(--mid);font-style:normal;letter-spacing:0.04em}
+  .moment.graduated .signal-quote .src{color:var(--faint)}
+
+  .grad-block{padding:12px 18px;background:var(--bg-3);border-top:1px solid var(--line)}
+  .moment.graduated .grad-block{background:#2A2622;border-top-color:#2A2622}
+  .grad-label{font-size:9.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mid);font-weight:800;margin-bottom:3px}
+  .moment.graduated .grad-label{color:var(--faint)}
+  .grad-text{font-size:12px;color:var(--ink-2);line-height:1.45;font-weight:600}
+  .moment.graduated .grad-text{color:var(--bg)}
+
+  .moment-actions{padding:10px 16px;border-top:1px solid var(--line);background:var(--bg);display:flex;gap:8px;align-items:center}
+  .moment.graduated .moment-actions{border-top-color:#2A2622;background:#1A1815}
+  .btn{background:transparent;color:var(--ink);border:1px solid var(--ink);border-radius:3px;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;padding:6px 11px;cursor:pointer;font-family:inherit;font-weight:600}
+  .btn:hover{background:var(--ink);color:var(--bg)}
+  .moment.graduated .btn{border-color:var(--bg);color:var(--bg)}
+  .moment.graduated .btn:hover{background:var(--bg);color:var(--ink)}
+  .btn.ghost{border-color:var(--line-2);color:var(--mid)}
+  .btn.ghost:hover{background:var(--bg-3);color:var(--ink);border-color:var(--ink)}
+
+  /* SIDEBAR */
+  .sidebar h2{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink);margin:0 0 14px;font-weight:800;padding-bottom:10px;border-bottom:2px solid var(--ink)}
+  .sidebar h3{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid);margin:22px 0 8px;font-weight:700}
+  .ever-item{padding:10px 0;border-bottom:1px solid var(--line);font-size:12.5px;line-height:1.45}
+  .ever-item:last-child{border-bottom:none}
+  .ever-item .t{font-weight:700;color:var(--ink);font-size:13px}
+  .ever-item .m{color:var(--mid);font-size:11.5px;margin-top:3px}
+  .ever-item .e{font-size:10.5px;color:var(--light);margin-top:3px;font-variant:tabular-nums}
+  .signal-box{margin-top:24px;padding:14px;background:var(--bg);border:1px solid var(--line);border-radius:6px;font-size:11.5px;color:var(--mid);line-height:1.55}
+  .signal-box strong{color:var(--ink);display:block;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px;font-weight:700}
+  .signal-box em{font-style:italic;color:var(--ink-2);font-weight:600}
+  .save-status{font-size:10px;color:var(--light);font-variant:tabular-nums;margin-top:18px;text-align:right}
+
+  .buyer-split{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+  .buyer-split .b{padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-radius:4px}
+  .buyer-split .b .h{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--mid);font-weight:700}
+  .buyer-split .b .v{font-size:18px;font-weight:800;margin-top:2px;font-variant:tabular-nums}
+  .buyer-split .b .m{font-size:10.5px;color:var(--light);margin-top:2px;line-height:1.3}
+
+  .backlog{margin-top:36px;padding:20px 24px;background:var(--bg-2);border:1px solid var(--line);border-radius:6px}
+  .backlog h2{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink);margin:0 0 12px;font-weight:800}
+  .backlog .item{padding:11px 0;border-bottom:1px solid var(--line);font-size:13px;line-height:1.5}
+  .backlog .item:last-child{border-bottom:none}
+  .backlog .item .h{font-weight:700;color:var(--ink)}
+  .backlog .item .why{color:var(--mid);font-size:11.5px;margin-top:3px;font-style:italic}
+
+  footer.foot{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);font-size:11px;color:var(--light);display:flex;justify-content:space-between;gap:20px}
+
+  .moment-empty-cta{padding:40px 16px;text-align:center;color:var(--mid);font-size:13px;flex:1}
+
+  /* CONTENT PRODUCTION */
+  .content-sources{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:0 0 36px}
+  .content-source{background:var(--bg);border:1px solid var(--ink);border-radius:6px;padding:18px 20px}
+  .content-source .src-h{font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--mid);font-weight:700;margin-bottom:6px}
+  .content-source .src-t{font-size:16px;font-weight:800;letter-spacing:-0.01em;margin-bottom:8px}
+  .content-source .src-d{font-size:12px;color:var(--mid);line-height:1.5;margin-bottom:12px}
+  .content-source ul{margin:0;padding:0;list-style:none;border-top:1px solid var(--line);padding-top:10px}
+  .content-source li{font-size:12px;padding:4px 0;color:var(--ink-2);line-height:1.4;padding-left:14px;position:relative}
+  .content-source li::before{content:"·";position:absolute;left:4px;color:var(--mid);font-weight:800}
+  .content-source .pace{display:inline-block;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;background:var(--bg-3);color:var(--ink);padding:3px 8px;border-radius:3px;margin-top:8px;font-weight:700}
+  .section-h{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink);margin:36px 0 14px;font-weight:800;padding-bottom:10px;border-bottom:2px solid var(--ink)}
+  .section-h em{font-style:italic;font-weight:300;color:var(--mid);font-size:13px;letter-spacing:0;text-transform:none}
+
+  /* per-moment WHY block */
+  .why-block{padding:14px 18px;border-bottom:1px solid var(--line);background:var(--bg-2)}
+  .moment.graduated .why-block{background:#1A1815;border-bottom-color:#2A2622}
+  .why-label{font-size:9.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mid);font-weight:800;margin-bottom:5px}
+  .moment.graduated .why-label{color:var(--faint)}
+  .why-text{font-size:12.5px;line-height:1.55;color:var(--ink-2)}
+  .moment.graduated .why-text{color:var(--bg)}
+  .why-text strong{color:var(--ink);font-weight:700}
+  .moment.graduated .why-text strong{color:var(--bg)}
+
+  /* sidebar nav */
+  .side-nav{margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+  .side-nav h2{margin-bottom:10px !important}
+  .side-nav ul{margin:0;padding:0;list-style:none}
+  .side-nav li{padding:2px 0}
+  .side-nav a{color:var(--ink-2);text-decoration:none;font-size:12.5px;display:block;padding:5px 10px;border-radius:4px;border:1px solid transparent;transition:background 100ms,border-color 100ms}
+  .side-nav a:hover{background:var(--bg);border-color:var(--line);color:var(--ink);font-weight:600}
+  .side-nav a .meta{color:var(--light);font-size:10.5px;margin-left:6px;font-style:italic}
+  .side-nav .group{margin-bottom:8px}
+  .side-nav .group-h{font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid);font-weight:700;padding:6px 10px 4px}
+
+  /* per-moment content block */
+  .content-block{padding:14px 18px;border-top:1px solid var(--line);background:var(--bg-2)}
+  .moment.graduated .content-block{background:#1A1815;border-top-color:#2A2622}
+  .content-label{font-size:9.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mid);font-weight:800;margin-bottom:8px}
+  .moment.graduated .content-label{color:var(--faint)}
+  .content-row{display:grid;grid-template-columns:80px 1fr;gap:10px;font-size:11.5px;line-height:1.45;padding:5px 0;border-bottom:1px dotted var(--line)}
+  .moment.graduated .content-row{border-bottom-color:#2A2622}
+  .content-row:last-child{border-bottom:none}
+  .content-row .src{font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);font-weight:700;padding-top:2px}
+  .moment.graduated .content-row .src{color:var(--faint)}
+  .content-row .what{color:var(--ink-2)}
+  .moment.graduated .content-row .what{color:var(--bg)}
+  .content-row .what em{font-style:italic;color:var(--mid);font-size:10.5px;display:block;margin-top:1px}
+  .content-row .urgent{display:inline-block;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;background:var(--ink);color:var(--bg);padding:1px 5px;border-radius:2px;margin-left:6px;font-weight:800;vertical-align:1px}
+  .moment.graduated .content-row .urgent{background:var(--bg);color:var(--ink)}
+
+  /* Master schedule */
+  .schedule{margin-top:24px}
+  .schedule-month{border:1px solid var(--ink);border-radius:6px;margin-bottom:10px;overflow:hidden}
+  .schedule-head{background:var(--ink);color:var(--bg);padding:10px 16px;font-size:13px;font-weight:700;letter-spacing:-0.005em;display:flex;justify-content:space-between;align-items:center}
+  .schedule-head em{font-style:italic;font-weight:300;color:var(--faint);font-size:11px}
+  .schedule-body{padding:14px 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;font-size:12px}
+  .schedule-col h5{font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid);font-weight:700;margin:0 0 6px}
+  .schedule-col ul{margin:0;padding:0;list-style:none}
+  .schedule-col li{padding:4px 0;color:var(--ink-2);line-height:1.4;font-size:11.5px;border-bottom:1px dotted var(--line)}
+  .schedule-col li:last-child{border-bottom:none}
+  @media (max-width:760px){.schedule-body{grid-template-columns:1fr}.content-sources{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<main>
+
+<header class="top">
+  <div class="eyebrow">BALANZI · 2026 Moments &amp; Offers · v5 · trends-grounded · signal-validated</div>
+  <h1>What's the moment. <em>What's the offer.</em> What's the bundle.</h1>
+  <div class="lede">Evergreen runs underneath the whole year (block below). On top, every month gets <strong>2 engineered moments</strong> — each a structural offer (bundle / gift-with-purchase / digital mechanic / service / access) that either <strong>graduates into evergreen</strong> or kills cleanly. Every moment uses real BALANZI SKUs (8MM &amp; 12MM · Sets · His Collection · First Real Chain · Crucifix charm).</div>
+</header>
+
+<div class="principles">
+  <div class="p"><div class="n">01</div><div class="t">Offer = the moment</div><div class="m">Bundle SKU(s) at a structural price + LP + paid ad push. Two tiers let the customer self-select.</div></div>
+  <div class="p"><div class="n">02</div><div class="t">Self-buyer vs Gifter</div><div class="m">65–79% self · 21–37% gift (higher AOV). Natural gifting seasons → BOTH slots target gifters.</div></div>
+  <div class="p"><div class="n">03</div><div class="t">Real catalog only</div><div class="m">8MM &amp; 12MM chains/bracelets · Sets · His Collection · First Real Chain · Crucifix charm.</div></div>
+  <div class="p"><div class="n">04</div><div class="t">Graduate or kill</div><div class="m">Hard threshold per offer. Clear → permanent. Miss → archive. No sentimental keeping.</div></div>
+</div>
+
+<div class="catalog-ref">
+  <div>
+    <h4>Chains &amp; bracelets</h4>
+    <ul>
+      <li><strong>Chain 12MM</strong> · $129 → $139–149* · CM 63%</li>
+      <li><strong>Chain 8MM</strong> · $109 → $119–129* · CM 64%</li>
+      <li><strong>Bracelet 12MM</strong> · $109 · CM 68%</li>
+      <li><strong>Bracelet 8MM</strong> · $99 · CM 68%</li>
+      <li><strong>First Real Chain</strong> · $129 · CM 63%</li>
+      <li style="color:var(--light);margin-top:4px;font-style:italic">* with June price push</li>
+    </ul>
+  </div>
+  <div>
+    <h4>Sets · Stacks · Collection</h4>
+    <ul>
+      <li><strong>Cuban Set 12MM</strong> · $209 → $229 · CM 66% · chain + matching bracelet</li>
+      <li><strong>Cuban Set 8MM</strong> · $149 → $169 · CM 62% · chain + matching bracelet</li>
+      <li><strong>Chain Stack 8+12MM</strong> · $189 → $209 · CM 65% · two chains layered (no bracelet)</li>
+      <li><strong>Ultimate Set</strong> · $299 · CM 60% · 3-piece</li>
+      <li><strong>His Collection</strong> · existing /for-him?entry=anniversary SKU</li>
+    </ul>
+  </div>
+  <div>
+    <h4>Gift-only adds (never standalone)</h4>
+    <ul>
+      <li><strong>Crucifix pendant</strong> · stainless steel + gold-plated · $3.50 COGS</li>
+      <li><strong>Matching bracelet</strong> · $5–6 COGS</li>
+      <li><strong>Premium gift box</strong> · ~$5 COGS</li>
+      <li><strong>Founder card</strong> · ~$1 COGS</li>
+      <li><strong>Year/Occasion insert</strong> · ~$1 COGS</li>
+    </ul>
+  </div>
+</div>
+
+<!-- EVERGREEN BASE -->
+<section class="evergreen-base" id="evergreen-base">
+  <h2>Evergreen base — <em>what runs underneath every moment, every month, all year</em></h2>
+  <p class="ev-lede">The moments above the calendar are 2-week pulses. Underneath them, this base runs 24/7. Each row is signal-grounded — built from the OuterSignal persona data (11,037 customers · mean age 50 · 78% male · 98% US), the May 14 customer-emotion diagnostic (7 verified emotion patterns), and the May 2026 brand-promise audit.</p>
+
+  <div class="ev-grid">
+
+    <div class="ev-block">
+      <h3>Graduated offers · permanent</h3>
+      <ul>
+        <li class="grad"><span class="h">Matching bracelet with any Stack</span><span class="n">MD 2026 graduate · permanent qualifier chip on stack PDPs · COGS $5–6 · CM impact ~3%</span></li>
+        <li class="grad"><span class="h">Free expedited US shipping</span><span class="n">Always on the announcement bar · marginal cost in 3PL line</span></li>
+        <li class="grad"><span class="h">Keep The Chain Guarantee</span><span class="n">Wear it a month or a year · money back AND keep the chain · size doesn't fit → new ships + original yours · answers 350 returns/exchange signal tags</span></li>
+        <li class="grad"><span class="h">Hand-finished · 316L surgical core</span><span class="n">Specificity claim · journalist-test safe · on every PDP · answers the 162 quality complaints in last 90d</span></li>
+        <li class="grad"><span class="h">June chain price push +$10–20</span><span class="n">Funds the FDay crucifix structurally · net CM lift +5–8% · holds through Q4</span></li>
+      </ul>
+    </div>
+
+    <div class="ev-block">
+      <h3>Permanent /for-him?entry= LPs</h3>
+      <ul>
+        <li><span class="h">/for-him?entry=anniversary</span><span class="n">Year-round constant demand · paid pulses Jul + Sep · His Collection lives here</span></li>
+        <li><span class="h">/for-him?entry=birthday</span><span class="n">#1 gifting occasion (46 Zigpoll responses) · evergreen · year-round paid layer</span></li>
+        <li><span class="h">/for-him?entry=just-because</span><span class="n">#2 gifting occasion (34 responses) · under-served year-round demand</span></li>
+        <li><span class="h">/for-him?entry=fathers-day</span><span class="n">Hibernating · ramps Apr 26 · peaks Jun 8-14</span></li>
+        <li><span class="h">/for-him?entry=christmas</span><span class="n">Hibernating · ramps Nov 9 · peaks Dec 14-20</span></li>
+      </ul>
+    </div>
+
+    <div class="ev-block">
+      <h3>Year-round creative pillars · signal-grounded</h3>
+      <ul>
+        <li><span class="h">"Still on" line</span><span class="n">Pattern #5 quiet daily integration · 94% of 30+ day owners wear daily · brand's signature</span></li>
+        <li><span class="h">"Where did you get it?" interrogation</span><span class="n">Pattern #1 dominant compliment emotion (75 verbatims) · UNDER-served in current creative · double down year-round</span></li>
+        <li><span class="h">Father-figure portrait series</span><span class="n">Built for FDay · extends year-round on /for-him + cold prospecting</span></li>
+        <li><span class="h">Time-elapsed customer proof</span><span class="n">"Day 187. Still on. — Marcus, Phoenix." · NO aggregate %, NO "won't fade", NO "lifetime guarantee"</span></li>
+        <li><span class="h">Single-customer verbatim takeover</span><span class="n">No aggregate stats · single named customer + city + quote · per signal-grounded copy rule</span></li>
+      </ul>
+    </div>
+
+    <div class="ev-block">
+      <h3>Persona double-downs · year-round</h3>
+      <ul>
+        <li><span class="h">Builder cluster · 1,552 customers</span><span class="n">Trades 595 + Trucker 396 + Owner-Op 561 · currently ZERO commerce offers · Jobsite Chain moment + year-round creative</span></li>
+        <li><span class="h">Service cluster · 855 customers</span><span class="n">Public Safety + Military + Veteran + Pastor + Healthcare · underweighted in creative · Brotherhood Chain + year-round dignity-coded ads</span></li>
+        <li><span class="h">Tier G3 Southern blue-collar father · 277</span><span class="n">Most-core BALANZI segment · currently fragmented across owner-op/trades/service</span></li>
+        <li><span class="h">Mom-gifter · 123+ (likely larger)</span><span class="n">Christmas data shows MOMS buying most for sons · ZERO current ads · build "From Mom" creative angle</span></li>
+        <li><span class="h">Tier G2 wealthy-retiree female · 135</span><span class="n">60+ female · $800k+ pv · "Herself" pilot Aug · graduates to permanent segment if it works</span></li>
+      </ul>
+    </div>
+
+    <div class="ev-block">
+      <h3>Always-on tests · run alongside moments</h3>
+      <ul>
+        <li><span class="h">Price-push CM sustain</span><span class="n">June +$10–20 lift · monitor monthly that CM holds vs. baseline · auto-revert if sustained CM drop</span></li>
+        <li><span class="h">Days-Worn PDP counter</span><span class="n">Aug Proof Week pilot · if cold CTR beats creative by >10% → permanent on every PDP</span></li>
+        <li><span class="h">Stack Builder PDP tool</span><span class="n">Sep test · if PDP→cart CVR lifts >20% → permanent on all stack PDPs</span></li>
+        <li><span class="h">Send-Ahead Card 3-gate graduation</span><span class="n">Jun + Nov + Dec windows · all 3 clear >15% adoption → year-round 6-occasion variants</span></li>
+        <li><span class="h">"Herself" LP + segment + ad set</span><span class="n">Aug pilot · if CVR + AOV signal cleared → permanent /herself + Klaviyo segment + Meta ad set</span></li>
+      </ul>
+    </div>
+
+    <div class="ev-block">
+      <h3>Content production · 3 sources aligned</h3>
+      <ul>
+        <li><span class="h">Cofounder POV · 1–2/month</span><span class="n">Workshop · samples · boxes · NOT fake-promo · on-demand for moments</span></li>
+        <li><span class="h">Lab Art · monthly brief</span><span class="n">Product + persona-cluster lifestyle + ad creative variants · paid creative team</span></li>
+        <li><span class="h">Customer UGC · continuous</span><span class="n">Loox + Judge.me + Zigpoll + IG + Day-N milestone Klaviyo captures · single-customer verbatim only</span></li>
+        <li><span class="h">Master schedule below the calendar</span><span class="n">Per-month breakout · handoff-ready brief for cofounder + Lab Art + UGC team</span></li>
+      </ul>
+    </div>
+
+    <div class="ev-block">
+      <h3>Brand-promise enforcement · ongoing</h3>
+      <ul>
+        <li><span class="h">Banned-words audit · weekly</span><span class="n">NO "won't fade · lifetime guarantee · tarnish-proof · premium · luxury · exclusive · introducing" · 30+ live 1★ reviews cite these</span></li>
+        <li><span class="h">Signal-grounded copy rule</span><span class="n">Every line traces to a verbatim quote, time-elapsed proof, specific provable claim, or canonical brand line · no gut-written</span></li>
+        <li><span class="h">Keep The Chain Guarantee front-and-center</span><span class="n">Subject line "Keep the chain. Get your money back." confirmed live · answers 350 returns/exchange tags</span></li>
+        <li><span class="h">316L specificity on every PDP</span><span class="n">Answers 25 tarnish + 55 fade tag complaints d90 · journalist-test safe</span></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<h2 class="section-h" id="content-sources">Content production system · <em>3 sources, all aligned to the calendar</em></h2>
+
+<div class="content-sources">
+
+  <div class="content-source">
+    <div class="src-h">Source 01</div>
+    <div class="src-t">Cofounder POV</div>
+    <div class="src-d">Authentic founder/cofounder POV from the workshop. NOT fake-promotional. Native iPhone or simple cam, real samples, real boxes, real product. Workshop backdrop is fine — that's the brand.</div>
+    <ul>
+      <li>Founder/cofounder explaining a mechanic or product story</li>
+      <li>Genuine reactions to customer reviews or UGC</li>
+      <li>Workshop tours · how chains finish · packaging happens</li>
+      <li>Inventory unboxings as new stock arrives</li>
+      <li>Family/personal context when relevant (Father-Son, From Mom)</li>
+    </ul>
+    <div class="pace">1–2 captures / month + on-demand for moments</div>
+  </div>
+
+  <div class="content-source">
+    <div class="src-t">Source 02</div>
+    <div class="src-t">Lab Art</div>
+    <div class="src-d">Paid creative team. Monthly brief. Product photography, persona-context lifestyle, persona-cluster shoots, ad-creative variants. Higher-polish than Cofounder POV.</div>
+    <ul>
+      <li>Product flat-lays + bundle photography</li>
+      <li>Persona-cluster documentary lifestyle (Builder · Service · Father-Son · Hers.)</li>
+      <li>Father-figure portrait series refresh quarterly</li>
+      <li>Numbered insert + premium box photography</li>
+      <li>Ad-creative variants per moment</li>
+    </ul>
+    <div class="pace">Monthly brief · scheduled shoots</div>
+  </div>
+
+  <div class="content-source">
+    <div class="src-h">Source 03</div>
+    <div class="src-t">Customer UGC</div>
+    <div class="src-d">Continuous harvest from Loox · Judge.me · Zigpoll · IG mentions · Klaviyo Day-N milestone captures. Single-customer verbatim, NEVER aggregate stats.</div>
+    <ul>
+      <li>Loox + Judge.me weekly review curation → ad library</li>
+      <li>Zigpoll free-text mining → verbatim → ads</li>
+      <li>IG @balanzi + #balanzi mention monitoring</li>
+      <li>Day-30 / 100 / 365 milestone flow auto-captures customer photos</li>
+      <li>Wear Moment submission tool (if Oct UGC drive graduates)</li>
+    </ul>
+    <div class="pace">Continuous · weekly curation</div>
+  </div>
+
+</div>
+
+<div id="months"></div>
+
+<h2 class="section-h" id="schedule">Master content production schedule · <em>handoff-ready brief for cofounder + Lab Art + UGC team</em></h2>
+
+<div class="schedule">
+
+  <div class="schedule-month">
+    <div class="schedule-head">June · Father's Day <em>· gifter double-down</em></div>
+    <div class="schedule-body">
+      <div class="schedule-col"><h5>Cofounder POV</h5><ul>
+        <li>Unboxing the Father's Edition box · "why we built this" · authentic, workshop</li>
+        <li>Send-Ahead Card explainer · 30-sec "missed the cutoff" mechanic walkthrough</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Lab Art</h5><ul>
+        <li>Father's Edition box flat-lay + components shot</li>
+        <li>Wife-giving + father-receiving lifestyle</li>
+        <li>Send-Ahead card design variants (6-8 designs)</li>
+        <li>Screen-recording of card customization flow</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Customer UGC</h5><ul>
+        <li>Klaviyo flow captures father-unboxing photos post-FDay</li>
+        <li>Day+3 testimonial trigger on Send-Ahead Card users</li>
+        <li>Resurface in Jul + ongoing year-round</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="schedule-month">
+    <div class="schedule-head">July · Anniversary + Jobsite pilot</div>
+    <div class="schedule-body">
+      <div class="schedule-col"><h5>Cofounder POV</h5><ul>
+        <li>Anniversary year-marker mechanic story</li>
+        <li>Jobsite Chain · 316L story + Builder register · no jargon</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Lab Art · PRIORITY</h5><ul>
+        <li>Jobsite documentary shoot (electrician · welder · mason · trucker)</li>
+        <li>Founder card product photography</li>
+        <li>Chain on actual jobsite · hands · hi-vis · sweat</li>
+        <li>Numbered-year insert photography (1/5/10/15/25/30)</li>
+        <li>His Collection in anniversary box · subtle couple lifestyle</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Customer UGC</h5><ul>
+        <li>Builder review harvest: "construction" "trucker" "welder" + daily-wear</li>
+        <li>Past anniversary couple submissions from Loox + Judge.me</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="schedule-month">
+    <div class="schedule-head">August · Herself pilot + Father-Son pilot</div>
+    <div class="schedule-body">
+      <div class="schedule-col"><h5>Cofounder POV · PRIORITY</h5><ul>
+        <li>Hers. anti-pink positioning explainer (cofounder if female, OR founder explaining stance)</li>
+        <li>Father-Son bundle story · authentic father-son moment in workshop · own family if appropriate</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Lab Art · PRIORITY</h5><ul>
+        <li>Woman 60+ documentary · garden, kitchen, car, desk, dog · NO pink</li>
+        <li>Bracelet flat-lay + 8+12 stack on real wrist</li>
+        <li>Father-Son lifestyle (parent + son real moments, NOT actors)</li>
+        <li>Dual-slot gift box reveal video</li>
+        <li>2 chains side-by-side product shots</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Customer UGC</h5><ul>
+        <li>Female reviewer harvest from Loox/Judge.me</li>
+        <li>Loox reviews mentioning "son" "graduation" "first chain" "for my boy"</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="schedule-month">
+    <div class="schedule-head">September · Labor Day · Jobsite scale · Father-Son continues</div>
+    <div class="schedule-body">
+      <div class="schedule-col"><h5>Cofounder POV</h5><ul>
+        <li>Pair with Labor Day Hands-That-Made-It series</li>
+        <li>Refine FS POV based on Aug signal</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Lab Art · PRIORITY</h5><ul>
+        <li>Working-Man portrait series · 5-6 portraits (mason, electrician, welder, trucker, firefighter, chef)</li>
+        <li>Refine winning creative from Aug FS pilot</li>
+        <li>Pre-produce Christmas From Mom angle assets</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Customer UGC</h5><ul>
+        <li>Continued Builder cohort harvest · "X years on the job" mentions</li>
+        <li>Capture early Aug-Sep FS customer reactions for Christmas testimonials</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="schedule-month">
+    <div class="schedule-head">October · BFCM Waitlist + Gift Concierge</div>
+    <div class="schedule-body">
+      <div class="schedule-col"><h5>Cofounder POV</h5><ul>
+        <li>Waitlist announcement + 2026 in Wear PDF preview · genuine, not hype</li>
+        <li>Gift Concierge demo · mini-scenario walk-through</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Lab Art</h5><ul>
+        <li>2026 in Wear PDF design (founder letter + 12 customer photos)</li>
+        <li>Simple typography for Waitlist LP + email</li>
+        <li>Gift Concierge service-explainer icon system</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Customer UGC · CURATION</h5><ul>
+        <li>Curate the 12 BEST customer photos of 2026 for the PDF</li>
+        <li>Founder-approved selection</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="schedule-month">
+    <div class="schedule-head">November · BFCM + Brotherhood (Veterans Day) + Send-Ahead Cyber</div>
+    <div class="schedule-body">
+      <div class="schedule-col"><h5>Cofounder POV</h5><ul>
+        <li>Brotherhood / Service cluster · dignity-coded · personal connection if any</li>
+        <li>Cyber variant of Send-Ahead explainer</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Lab Art · PRIORITY</h5><ul>
+        <li>Service cluster documentary · Veterans · Military · Faith · Public Safety</li>
+        <li>"Gear-on-hook, coffee mug, hands" calibration · NO flag, NO duty-porn</li>
+        <li>BFCM stack-of-three product photography (crucifix + bracelet + chain)</li>
+        <li>Cyber Week + Christmas card design variants</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Customer UGC</h5><ul>
+        <li>Service review harvest · "Veteran" "Military" "served" "first responder" · curate respectfully</li>
+        <li>Reuse FDay Send-Ahead testimonials with Cyber framing</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="schedule-month">
+    <div class="schedule-head">December · Christmas Father-Son From Mom + Send-Ahead Christmas</div>
+    <div class="schedule-body">
+      <div class="schedule-col"><h5>Cofounder POV · PRIORITY</h5><ul>
+        <li>Moms-buying-for-sons story · could feature own mom/wife with son(s) if appropriate</li>
+        <li>"This is the moment we want to honor" · NOT promo, NOT hype</li>
+        <li>Christmas variant of Send-Ahead explainer</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Lab Art · PRIORITY</h5><ul>
+        <li>Mom-Son lifestyle · mother + adult/teen son · Christmas-coded (warm light, holiday context)</li>
+        <li>Father-Son Set in dual-slot box with "From Mom" insert visible</li>
+        <li>Christmas card design variants (6-8 holiday options)</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Customer UGC</h5><ul>
+        <li>Mom-gifter review harvest · "from mom" "my son" "Christmas" "graduation"</li>
+        <li>Resurface as ad creative</li>
+        <li>Reuse FDay + Cyber Send-Ahead testimonials with Christmas framing</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="schedule-month" style="border-color:var(--line);background:var(--bg-2)">
+    <div class="schedule-head" style="background:var(--bg-3);color:var(--ink)">EVERGREEN · always running underneath the calendar <em style="color:var(--mid)">· continuous, not tied to moments</em></div>
+    <div class="schedule-body">
+      <div class="schedule-col"><h5>Cofounder POV · 1–2/month</h5><ul>
+        <li>Monthly "what I'm thinking about" · jewelry · business · customer</li>
+        <li>Reactions to customer reviews/UGC (organic responses)</li>
+        <li>Workshop tours · how chains finish · packaging happens</li>
+        <li>Inventory unboxings as new stock arrives</li>
+        <li>Customer service stories (no names, just learnings)</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Lab Art · ongoing brief</h5><ul>
+        <li>Product flat-lays refresh quarterly</li>
+        <li>Lifestyle library refresh quarterly (5 personas × 5 contexts)</li>
+        <li>Father-figure portrait series refresh quarterly</li>
+        <li>Days-Worn typographic content monthly</li>
+        <li>"Where did you get it?" creative cluster (under-served)</li>
+      </ul></div>
+      <div class="schedule-col"><h5>Customer UGC · continuous</h5><ul>
+        <li>Loox + Judge.me weekly review curation → ad library</li>
+        <li>Zigpoll free-text mining → verbatim → ads</li>
+        <li>IG @balanzi + #balanzi mention monitoring</li>
+        <li>Day-30 / 100 / 365 milestone Klaviyo flow auto-captures</li>
+        <li>Wear Moment submission tool (if Oct UGC drive graduates)</li>
+      </ul></div>
+    </div>
+  </div>
+
+</div>
+
+<section class="backlog" id="backlog">
+  <h2>2027 backlog · parked moments</h2>
+  <div>
+    <div class="item"><div class="h">Graduation moment (Father-Son angle)</div><div class="why">Already tested in past, didn't perform — execution failure, not market failure. Re-attack May 2027 with Father-Son Bundle (post-mortem first). 938K monthly graduation-gift queries.</div></div>
+    <div class="item"><div class="h">"Herself" → Mother's Day reframe</div><div class="why">If Aug 2026 pilot graduates → Mother's Day 2027 with "she bought herself" angle (anti-from-kids gift framing)</div></div>
+    <div class="item"><div class="h">Retirement Chain</div><div class="why">Slot when LinkedIn-retirement-news segment ramps in OuterSignal data · Established 60+ cohort 2,603 customers</div></div>
+    <div class="item"><div class="h">Mom-gifter dedicated angle</div><div class="why">If Christmas Father-Son "From Mom" creative validates → dedicated year-round Mom-gifter creative engine</div></div>
+    <div class="item"><div class="h">Founder's Cut limited edition</div><div class="why">Alt scarcity mechanic if BFCM Waitlist underperforms · 100 units/month branded packaging variant of existing chain</div></div>
+  </div>
+</section>
+
+<footer class="foot">
+  <span>BALANZI moments planner v5 · 14 engineered moments · evergreen base · localStorage save</span>
+  <span id="meta-stat"></span>
+</footer>
+
+</main>
+
+<aside class="sidebar">
+
+  <div class="side-nav">
+    <h2 style="border-bottom:2px solid var(--ink);padding-bottom:8px">Jump to</h2>
+    <div class="group">
+      <div class="group-h">Calendar</div>
+      <ul>
+        <li><a href="#month-2026-06">June <span class="meta">FDay</span></a></li>
+        <li><a href="#month-2026-07">July <span class="meta">Anniversary · Jobsite</span></a></li>
+        <li><a href="#month-2026-08">August <span class="meta">Herself · Father-Son</span></a></li>
+        <li><a href="#month-2026-09">September <span class="meta">Labor Day · scale</span></a></li>
+        <li><a href="#month-2026-10">October <span class="meta">Waitlist · Concierge</span></a></li>
+        <li><a href="#month-2026-11">November <span class="meta">BFCM · Brotherhood</span></a></li>
+        <li><a href="#month-2026-12">December <span class="meta">Christmas · From Mom</span></a></li>
+      </ul>
+    </div>
+    <div class="group">
+      <div class="group-h">Sections</div>
+      <ul>
+        <li><a href="#evergreen-base">Evergreen base <span class="meta">always running</span></a></li>
+        <li><a href="#content-sources">Content sources <span class="meta">3 streams</span></a></li>
+        <li><a href="#schedule">Production schedule <span class="meta">monthly brief</span></a></li>
+        <li><a href="#backlog">2027 backlog</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Buyer split</h2>
+  <div class="buyer-split">
+    <div class="b"><div class="h">Self-buyer</div><div class="v">65–79%</div><div class="m">Pattern #7 self-gift</div></div>
+    <div class="b"><div class="h">Gifter</div><div class="v">21–37%</div><div class="m">Wife→Husband 50%+</div></div>
+  </div>
+
+  <h3>Unit economics · US</h3>
+  <div class="ever-item"><div class="t">Blended AOV $170 · CM $64 (38%)</div><div class="m">1.7 units/order · tariff 28.5% of cost</div></div>
+  <div class="ever-item"><div class="t">Crucifix COGS</div><div class="m">$3.50 · gift-only · graduated FDay</div></div>
+  <div class="ever-item"><div class="t">Bracelet 8MM COGS</div><div class="m">$5.30 · best freebie · graduated MD</div></div>
+  <div class="ever-item"><div class="t">12MM upgrade cost</div><div class="m">$2.60 COGS over 8MM</div></div>
+
+  <h3>Persona cohorts</h3>
+  <div class="ever-item"><div class="t">Mean age 50 · 61% are 45+</div><div class="m">Gen X 36% · Boomer 26%</div></div>
+  <div class="ever-item"><div class="t">Builder cluster · ~30%</div><div class="m">Trades + Trucker + Owner-Op</div></div>
+  <div class="ever-item"><div class="t">Polish cluster · ~25%</div><div class="m">Corp Exec + Sales + Realtor</div></div>
+  <div class="ever-item"><div class="t">Service cluster · ~20%</div><div class="m">Safety + Military + Faith</div></div>
+  <div class="ever-item"><div class="t">Tier G3 SE father · 277</div><div class="m">Most-core BALANZI segment</div></div>
+  <div class="ever-item"><div class="t">Mom-gifter · 123+</div><div class="m">Christmas peak · ZERO current ads</div></div>
+  <div class="ever-item"><div class="t">G2 retiree female · 135</div><div class="m">60+ · $800k+ pv · "Herself" pilot</div></div>
+
+  <h3>Live signal · d90</h3>
+  <div class="ever-item"><div class="t">Quality complaints</div><div class="e">162 d90 · 89 d30 · MEDIUM</div></div>
+  <div class="ever-item"><div class="t">Sizing</div><div class="e">95 d90 · HIGH urgency</div></div>
+  <div class="ever-item"><div class="t">Tarnish / Fading</div><div class="e">55 fade · 25 tarnish d90 · HIGH</div></div>
+
+  <h3>Google Trends · validated peaks</h3>
+  <div class="ever-item"><div class="t">FDay gift</div><div class="m">Ramps Apr 26 · peaks Jun 8-14 (index 100)</div></div>
+  <div class="ever-item"><div class="t">Christmas husband</div><div class="m">Ramps Nov 9 · peaks Dec 14-20</div></div>
+  <div class="ever-item"><div class="t">Anniversary husband</div><div class="m">Year-round constant 2-3 · specific years (4/6/9/10/15/17/30) all spike independently</div></div>
+  <div class="ever-item"><div class="t">"Mens jewelry set" rising</div><div class="m">+350 index · validates bundle strategy</div></div>
+
+  <div class="signal-box">
+    <strong>7 verified emotions</strong>
+    <em>1 · Interrogation</em> — "Where did you get it?"<br>
+    <em>2 · Identity-fit</em> — "Like I'm Him"<br>
+    <em>3 · Anxious-relief</em> — nervous before opening<br>
+    <em>4 · Didn't fade</em> — customer-voiced surprise<br>
+    <em>5 · Still on</em> — quiet daily wear<br>
+    <em>6 · Wife picks right</em> — gifter validation<br>
+    <em>7 · Self-gift</em> — earned reward
+  </div>
+
+  <div class="signal-box">
+    <strong>5 Levinger formats</strong>
+    1 · Before-the-Problem-Had-a-Name<br>
+    2 · Social Mirror<br>
+    3 · Reframe <em>★ highest leverage</em><br>
+    4 · Specificity<br>
+    5 · Earned Confidence <em>(warm only)</em>
+  </div>
+
+  <div class="save-status" id="save-status">● saved</div>
+</aside>
+
+</div>
+
+<script>
+(() => {
+const STORAGE_KEY = 'balanzi-moments-planner-v5';
+
+const SEED = {
+
+  /* ═══════════ JUNE — FATHER'S DAY · gifter double-down ═══════════ */
+  '2026-06': {
+    name: 'June', weeks: 'W22 → W26', sub: "Father's Day · gifter double-down",
+    doubledown: true,
+    doubledownLabel: 'GIFTER DOUBLE-DOWN · both engineered slots target the wife buying for her husband',
+    natural: {
+      name: "Father's Day",
+      when: 'Jun 4 → Jun 21 · search peak Jun 8-14',
+      offer: 'Free crucifix pendant with any order',
+      offerSub: 'No minimum · honors HIM, not the kid · brand-locked May 22',
+      pricePush: 'Chain prices +$10–20 (12MM $129→$139–149, 8MM $109→$119–129)',
+      pricePushWhy: 'Funds the crucifix structurally · net CM lifts +5–8%',
+      econ: 'Crucifix COGS $3.50 · Price push covers it · Target $100K (W23+W24+W25 stacked)'
+    },
+    e1: {
+      buyer:'gifter', buyerNote:'Wife → husband · dominant gifter cohort (50%+ of recent gifts)',
+      headline:"The Father's Edition Box",
+      type:'PACKAGING UPGRADE · existing SKUs',
+      title:"Premium reveal box + founder note + crucifix · existing chains/sets",
+      dates:'Jun 4 – Jun 21',
+      tiers:[
+        { name:'T1 · The Father\'s Chain', skus:['Chain 12MM ($139–149 with price push)','+ Free crucifix pendant','+ Premium gift box','+ Founder note'], price:'$139–149', cm:'CM 64%' },
+        { name:'T2 · The Father\'s Set', skus:['Cuban Set 12MM ($229 with price push)','+ Free crucifix pendant','+ Premium gift box','+ Founder note'], price:'$229', cm:'CM 64%' }
+      ],
+      message:'"For the father. Not the wallet."',
+      mechanic:'Existing chains and sets ship in an upgraded "Father\'s Edition" reveal box during the FDay window (vs standard pouch). Founder hand-writes the first 100 orders, then a printed founder-signature card thereafter. Crucifix sits in its own slot inside the box. The MOMENT OF OPENING does the validation work for the wife who picked it.',
+      offerCost:'$5–8', offerCostX:'Premium box + printed founder note · price push covers it',
+      cmHit:'Neutral', cmHitX:'Price push absorbs the packaging upgrade · CM holds',
+      ltvLift:'+gifter NPS', ltvLiftX:'Recipient unboxing drives review submission + repeat next year',
+      persona:'Wife buying for husband who is a father · 50%+ of recent gifts',
+      emotion:'Pattern #6 — Wife picks right · the box does the "you did good" work',
+      signalQuote:"I want him to be very excited about it. Because it's a gift.",
+      signalSrc:'Zigpoll gifter free-text · validation-relief anchor (May 14)',
+      levinger:'Social Mirror (gifter sees herself picking right)',
+      sherif:'Acceptance → Action', veilance:'Z2',
+      lp:'/for-him?entry=fathers-day',
+      test:'% FDay orders selecting Father\'s Edition · gifter NPS · review-mention of "box" in first 60d',
+      grad:'>40% FDay orders use the box AND >5 gift-related verbatim mentions in reviews → permanent gift-box upgrade option year-round',
+      why:'Wife→husband is 50%+ of recent gifts (Zigpoll May 14 diagnostic). Pattern #6 "wife picks right" is the dominant gifter emotion. The packaging moment IS the validation moment — the box does the "you did good" work for her. No new SKU needed — just elevate the experience on existing chains/sets already converting at FDay.',
+      content:{
+        cofounder:'Founder unboxing the Father\'s Edition box · "why we did this for FDay" · workshop backdrop · authentic',
+        labart:'Product flat-lay (box + crucifix + founder note + chain) · couple/wife-giving lifestyle · unboxing reveal video for ads',
+        ugc:'Klaviyo flow captures father-receiving-box photos · resurface in Jul reposts'
+      },
+      status:'briefed'
+    },
+    e2: {
+      buyer:'gifter', buyerNote:'Late-shopper wife past Jun 17 ship cutoff',
+      headline:"Send-Ahead Father's Day Card",
+      type:'DIGITAL MECHANIC · graduation gate #1 of 3',
+      title:"Card sends now · chain ships normally",
+      dates:'Jun 17 – Jun 21',
+      tiers:[
+        { name:'Single tier · works on any post-cutoff cart', skus:['Customer still buys actual chain/set','+ Free digital Father\'s Day card','+ Personalized: photo upload + 1-line message','+ Delivers Jun 21 morning to recipient'], price:'$0 add', cm:'No AOV impact' }
+      ],
+      singleTier:true,
+      message:'"Father\'s Day arrives Sunday. Your card arrives Sunday. The chain arrives Monday."',
+      mechanic:'Post-Jun 17 checkout triggers a modal: "Too late to ship for Father\'s Day? Send Dad a digital card now — the chain ships Monday." Buyer customizes (FDay art + photo upload + 1-line message), sets delivery time. Klaviyo emails the card Jun 21 morning. Chain ships normally. NOT a gift-card substitute — buyer still bought the actual chain (AOV preserved vs. $50-200 gift card fallback).',
+      offerCost:'$0', offerCostX:'Dev only · Klaviyo flow + LP',
+      cmHit:'None', cmHitX:'AOV fully preserved',
+      ltvLift:'+$5K incremental', ltvLiftX:'Captures late-shopper revenue that would hit zero',
+      persona:'Late-shopper wife · the cohort that misses every ship cutoff',
+      emotion:'Pattern #6 — card lands on time even when chain can\'t',
+      signalQuote:"I want him to feel good.",
+      signalSrc:'Zigpoll gifter pre-purchase anxiety',
+      levinger:'Reframe (positive choice not consolation)',
+      sherif:'Indifference → Action', veilance:'Z2',
+      lp:'/send-ahead-card',
+      test:'% post-cutoff carts using mechanic · incremental revenue captured',
+      grad:'Gate #1 of 3 · >15% post-cutoff adoption + >$5K incremental → continue to BFCM test. Full graduation after Christmas if all 3 clear → 6 occasion variants (FDay · Mother\'s Day · Anniversary · Birthday · Christmas · Just-Because)',
+      why:'Late-shopper gifters past Jun 17 ship cutoff currently fall back to gift cards (AOV degrades from $170 → $50-200) or abandon. Send-Ahead preserves the actual chain purchase AND delivers the emotional moment on time. Gate #1 of 3 — Cyber and Christmas confirm or kill the mechanic.',
+      content:{
+        cofounder:'Founder explainer · 30-sec "if you missed the cutoff, here\'s what we built for you" · authentic, helpful tone (not salesy)',
+        labart:'Screen recording of customization flow · 6-8 sample card design variants · phone-in-hand lifestyle showing card received',
+        ugc:'Post-FDay testimonial harvest · wives who used the mechanic (Klaviyo trigger Day+3)'
+      },
+      status:'briefed'
+    }
+  },
+
+  /* ═══════════ JULY — ANNIVERSARY + JOBSITE PILOT ═══════════ */
+  '2026-07': {
+    name: 'July', weeks: 'W27 → W30', sub: 'Anniversary summer peak · Jobsite pilot',
+    natural: null,
+    e1: {
+      buyer:'gifter', buyerNote:'Wife / partner · summer anniversary cohort (older couples = June wedding tradition)',
+      headline:"Anniversary · the year you stayed",
+      type:'EXISTING LP + HIS COLLECTION · occasion frame',
+      title:"Paid pulse on /for-him?entry=anniversary + year cards",
+      dates:'Jul 6 – Jul 31',
+      tiers:[
+        { name:'T1 · Anniversary Set', skus:['Cuban Set 12MM ($229 w/ price push)','+ Free numbered-year insert','+ Premium gift box','+ Send-Ahead Card option'], price:'$229', cm:'CM 64%' },
+        { name:'T2 · His Collection', skus:['His Collection (existing SKU)','+ Free numbered-year insert','+ Founder note','+ Send-Ahead Card option'], price:'TBD', cm:'TBD' }
+      ],
+      message:'"For the year you stayed."',
+      mechanic:'Paid traffic drives to existing /for-him?entry=anniversary LP. His Collection is the hero product (already anniversary-positioned). Layer: numbered-year insert at checkout (customer picks 1st, 5th, 10th, 25th, 30th etc.) → ships in box with printed year card. Send-Ahead Card option for partners who want to deliver a digital "I picked this for you" card BEFORE the chain arrives. Specific-year searches drive paid clusters (per Google rising query data: "30th wedding anniversary gift for husband" 57K, "10 year anniversary" 37K, "15 year" 31K).',
+      offerCost:'$5–7', offerCostX:'Box upgrade + year insert · Send-Ahead Card $0',
+      cmHit:'-2.5%', cmHitX:'On $229 Set · still 62% CM after',
+      ltvLift:'+anniversary cohort', ltvLiftX:'Wedding-anniversary gifters are year-over-year recurring buyers',
+      persona:'Anniversary gifter · summer-wedding-anniversary peak (older cohort)',
+      emotion:'Pattern #6 — Wife picks right (the year matters, the chain marks it)',
+      signalQuote:"I want him to feel good.",
+      signalSrc:'Gift-occasion Zigpoll (11 anniversary signals) + Google Trends anniversary queries',
+      levinger:'Specificity (year is real) + Social Mirror',
+      sherif:'Acceptance → Action', veilance:'Z2',
+      lp:'/for-him?entry=anniversary',
+      test:'% Set orders selecting year-frame · gift NPS · year-over-year retention',
+      grad:'>20% adoption of year-frame AND positive sentiment → permanent occasion-picker layered on /for-him?entry=anniversary year-round + Sep paid pulse',
+      why:'Google Trends — anniversary-gift-husband demand is YEAR-ROUND CONSTANT (not seasonal). Specific years spike massive volume: 30th anniversary 57K · 10-yr 37K · 15-yr 32K · 6-yr 35K monthly searches. Zigpoll #4 gifting occasion (11 mentions, currently ZERO brand presence). His Collection + /for-him?entry=anniversary LP already exist — needs activation, not new build.',
+      content:{
+        cofounder:'Founder POV · year-marker mechanic story · why specific years matter ("not generic anniversary, the year you stayed")',
+        labart:'Numbered-year insert photography (1/5/10/15/25/30 variants) · His Collection in anniversary box · subtle couple lifestyle · NO cheese, no posing',
+        ugc:'Past anniversary couple submissions · search Loox/Judge.me for "anniversary" + year mentions'
+      },
+      status:'idea'
+    },
+    e2: {
+      buyer:'self', buyerNote:'Builder cluster · 1,552 customers · ZERO current commerce offers',
+      headline:"The Jobsite Chain",
+      type:'NEW LP · existing SKUs + Builder cohort activation',
+      title:"Pilot for Trades · Trucker · Owner-Op cohort",
+      dates:'Jul 13 – Jul 31',
+      tiers:[
+        { name:'T1 · The Jobsite Chain', skus:['Chain 12MM ($139–149 w/ push)','+ Founder card · "I made this. I stand behind it. — Mark"','· No pouch · "Still on" positioning is the story'], price:'$139–149', cm:'CM 63%' },
+        { name:'T2 · The Jobsite Stack', skus:['Cuban Set 12MM ($229 w/ push) — chain + matching Bracelet 12MM','+ Founder card','· Extends graduated MD stack-mechanic to single self-buyers'], price:'$229', cm:'CM 65%' }
+      ],
+      message:'"Three chains snapped on the job. This is the fourth."',
+      mechanic:'New /jobsite LP for the Builder cluster (Trades 595 + Trucker 396 + Owner-Op 561 = 1,552 customers · ZERO current commerce). NO Founder card — conflicts with the "never take off" brand positioning (a pouch implies you DO take it off). Instead lean entirely on the LP + creative + Founder card as the value layer. Tier 2 Stack (existing Cuban Set 12MM SKU) gives the natural upgrade path. Documentary photography (hi-vis, hands, jobsite, truck cab, sweat). NO flag, NO patriotism, NO duty-porn.',
+      offerCost:'$1', offerCostX:'Founder card · marginal',
+      cmHit:'Neutral', cmHitX:'CM unchanged from baseline · existing SKUs',
+      ltvLift:'+new cohort', ltvLiftX:'1,552-customer base never previously addressed · cold prospecting unlock',
+      persona:'Builder cluster · Trades 595 + Trucker 396 + Owner-Op 561 + half of Founder',
+      emotion:'Embarrassment-not-shame · the 3-chains-in-3-years cycle named together',
+      signalQuote:"I'm tired of cheap chains breaking on the job.",
+      signalSrc:'Persona doc · Builder cluster verbatim register · plainspoken / no-bullshit',
+      levinger:'Before-the-Problem-Had-a-Name + Specificity (316L, hand-filed)',
+      sherif:'Rejection ("chains break on the job") → Question', veilance:'Z2',
+      lp:'/jobsite',
+      test:'/jobsite LP CVR vs baseline · Builder-segment Klaviyo growth · ad CTR on cold Builder lookalikes',
+      grad:'CVR >baseline self-buyer + Builder segment shows up as distinct cohort in OuterSignal → September SCALE · permanent /jobsite LP year-round',
+      why:'Builder cluster = 1,552 customers across Trades 595 + Trucker 396 + Owner-Op 561 — BIGGEST UNSERVED cohort in OuterSignal persona data. Currently ZERO commerce offers built for them. Persona doc verbatim register: plainspoken, no-bullshit. Embarrassment-not-shame ("3 chains in 3 years" cycle) is the unfair-share emotion category competitors aren\'t naming.',
+      content:{
+        cofounder:'Founder POV · why 316L matters · plain-spoken Builder register (no jargon, no flex) · could feature a Builder customer if accessible',
+        labart:'PRIORITY · Jobsite documentary (electrician · welder · mason · trucker context) · Founder card product shots · chain on actual job · hands · hi-vis · sweat · NOT staged',
+        ugc:'Builder-cluster review harvest · search Loox/Judge.me for "construction" "trucker" "mechanic" "welder" + daily-wear mentions'
+      },
+      status:'idea'
+    }
+  },
+
+  /* ═══════════ AUGUST — "HERS." + FATHER-SON PILOT ═══════════ */
+  '2026-08': {
+    name: 'August', weeks: 'W31 → W34', sub: 'Herself female anti-pink · Father-Son back-to-school pilot',
+    natural: null,
+    e1: {
+      buyer:'self', buyerNote:'G2 wealthy-retiree female · 135 customers · ZERO current cards · anti-female-marketing positioning',
+      headline:"Herself",
+      type:'NEW LP · anti-pink positioning · BRACELET-ONLY pilot',
+      title:"She bought herself the bracelet · pilot moment",
+      dates:'Aug 3 – Aug 30',
+      tiers:[
+        { name:'T1 · Her first piece', skus:['Bracelet 8MM ($99)','+ No pink · no soft-focus · no "treat yourself"','+ Same Inter typography as men\'s creative','+ Documentary photo direction'], price:'$99', cm:'CM 68%' },
+        { name:'T2 · The Stacked Weight', skus:['Bracelet 8MM ($99)','+ Bracelet 12MM ($109)','+ Bundle pricing vs $208 separately','+ Optional Send-Ahead Card from herself to herself'], price:'$179', cm:'CM 67%' }
+      ],
+      message:'"She bought herself the bracelet. Same weight as his."',
+      mechanic:'NEW /herself LP. Uses existing 8MM and 12MM bracelet SKUs (gender-flexible). BRACELET-ONLY for the pilot — chains are heavier, longer, and untested for our 60+ female cohort. If the pilot validates the cohort exists, Phase 2 tests a women\'s chain (8MM at shorter ~18" length). Anti-typical-female-marketing positioning per persona doc G2 calibration: "dignity register, quiet pride, NOT \'treat yourself,\' NOT girly/pink." Same documentary visual style as men\'s ads — real woman 60+ in real context (garden, kitchen, car, desk, dog). NO pink, NO soft-focus, NO influencer styling. Optional Send-Ahead Card "from herself to herself" for milestone birthdays (60/65/70).',
+      offerCost:'$0', offerCostX:'New LP + ad creative · no product offer',
+      cmHit:'Neutral', cmHitX:'Bracelet CM 67-68% (best in catalog)',
+      ltvLift:'+new cohort', ltvLiftX:'Female self-buyer cohort is unproven · 135 G2 customers + 380 female owner/exec self-buyers',
+      persona:'G2 retiree female (135) + female owner/exec self-buyers (380) · 60+ skew',
+      emotion:'Pattern #7 — Self-gift / earned reward, female-coded',
+      signalQuote:"It's better than the more expensive ones.",
+      signalSrc:'Zigpoll female self-buyer verbatim · price-confirmation cluster',
+      levinger:'Reframe (challenges category belief "women\'s jewelry = pink") + Earned Confidence',
+      sherif:'Rejection ("BALANZI is a men\'s brand") → Question', veilance:'Z2',
+      lp:'/herself',
+      test:'/herself LP CVR · Bracelet 8MM unit sales · ad CTR on female lookalikes · UGC submission rate · PR pickup potential',
+      grad:'/herself CVR clears baseline female bracelet CVR by 50%+ AND Bracelet 8MM sales lift sustained 60d → permanent /herself LP + Klaviyo segment + ongoing ad set · Mother\'s Day 2027 reframe candidate',
+      why:'G2 persona = 135 customers (60+ female · $800k+ pv) + 380 female owner/exec self-buyers = 515 verified untapped. Persona doc G2 calibration explicitly says: "dignity register, quiet pride, NOT treat-yourself, NOT girly/pink." Every category competitor markets women\'s jewelry conventionally. BALANZI brand voice is already calm/grounded — zero rebrand needed, just point it at her. Pattern #7 self-gift verbatim: "the price for such good quality is the best gift to myself."',
+      content:{
+        cofounder:'Cofounder explainer (if cofounder is female · OR founder explaining the brand stance) · why no pink · "she\'s an adult, treat her like one"',
+        labart:'PRIORITY · Woman 60+ documentary · garden · kitchen · car · desk · dog walk · NO pink · NO soft focus · NO influencer styling · bracelet flat-lay · 8+12 stack on real wrist',
+        ugc:'Female reviewer harvest · search Loox/Judge.me for women buyers · existing female bracelet customers (OuterSignal G2 cohort)'
+      },
+      status:'idea'
+    },
+    e2: {
+      buyer:'gifter', buyerNote:'Parent → son · back-to-school window · pilot before Christmas scale',
+      headline:"The Father-Son Bundle",
+      type:'NEW BUNDLE SKU · back-to-school pilot',
+      title:"Same chain. One length shorter.",
+      dates:'Aug 17 – Sep 30 (back-to-school window)',
+      tiers:[
+        { name:'T1 · The Father-Son Stack', skus:['Chain 12MM (dad, 22")','+ Chain 8MM (son, 16-18" shorter length)','+ Free dual-slot gift box','+ Optional milestone card'], price:'$189', cm:'CM 62%' },
+        { name:'T2 · The Father-Son Set', skus:['Chain 12MM + Chain 8MM (both)','+ Bracelet 12MM (dad)','+ Bracelet 8MM (son)','+ Free dual-slot gift box','+ Optional milestone card'], price:'$279', cm:'CM 58%' }
+      ],
+      message:'"His first day. His first real chain."',
+      mechanic:'NEW /father-son LP + bundle SKUs. Two tiers (Stack $189 vs Set $279) let parents self-select by budget. Uses existing 12MM and 8MM chains — the 8MM ships at a shorter kid-appropriate length (16-18") which we can stock as a length variant. Dual-slot gift box presents both pieces together as a paired gift. Optional milestone card add-on (default-on, opt-out). Back-to-School positioning Aug-Sep · this is the PILOT to read signal before scaling at Christmas with "From Mom" creative angle. Mid-flight read end of Sept decides Christmas creative direction.',
+      offerCost:'$18', offerCostX:'2-chain COGS · dual-slot box ~$3 · bundle CM ~58-62%',
+      cmHit:'+CM dollars', cmHitX:'Bundle replaces single-chain at higher AOV',
+      ltvLift:'+gift cohort signal', ltvLiftX:'Tests parent→son cohort before scaling at Christmas (the highest-LTV gift moment per founder)',
+      persona:'Parent → son · back-to-school gifter · Tier G3 SE father + Mom-gifter',
+      emotion:'Pattern #6 — gifter validation · "I picked the chain he\'ll grow into"',
+      signalQuote:"I know my grandson will feel like a KING!",
+      signalSrc:'Zigpoll gifter verbatim · legacy framing',
+      levinger:'Social Mirror (parent sees themselves AND the kid) + Specificity (matching gauge, real lengths)',
+      sherif:'Indifference → Action', veilance:'Z2',
+      lp:'/father-son',
+      test:'Bundle CVR · T1 vs T2 self-selection split · AOV vs single-chain baseline · creative test "From Dad" vs "From Mom" angle',
+      grad:'>50 units sold in pilot AND clear creative winner identified → SCALE December with refined "From Mom" creative · permanent SKU thereafter',
+      why:'Founder signal: Christmas 2025\'s #1 buyer cohort was MOMS buying for sons. Tier G3 (Southern blue-collar partnered father · 277 verified customers) is the most-core BALANZI segment per persona doc. 938K monthly graduation-gift-for-son queries (Google Trends) — under-tapped. Back-to-school window is the natural pilot before scaling at Christmas — gives us 4-6 weeks of paid signal before committing the big budget.',
+      content:{
+        cofounder:'PRIORITY · Cofounder POV on the bundle · could feature his own family if appropriate (kids, partner) · authentic father-son moment in the workshop · NOT staged emotional · "this is the chain I would give my son"',
+        labart:'PRIORITY · Father-Son lifestyle (parent + son real moments · NOT actors-pretending) · dual-slot gift box reveal video · 2 chains side-by-side product shots · back-to-school context if season permits',
+        ugc:'Loox harvest · search reviews for "son" "graduation" "first chain" "for my boy" mentions · resurface as ad creative'
+      },
+      status:'idea'
+    }
+  },
+
+  /* ═══════════ SEPTEMBER — LABOR DAY · JOBSITE SCALE · FATHER-SON CONTINUES ═══════════ */
+  '2026-09': {
+    name: 'September', weeks: 'W35 → W39', sub: 'Labor Day · Jobsite scale · Father-Son continues',
+    natural: {
+      name: 'Labor Day weekend',
+      when: 'Sep 5 → Sep 7',
+      offer: 'No discount · "Hands That Made It" Working-Man portrait series',
+      offerSub: 'Brand-equity moment · Tier G persona activation · NOT a commerce push',
+      pricePush: 'No price push · brand-equity not commerce',
+      pricePushWhy: 'Builds Tier G affinity for Q4 retargeting',
+      econ: 'Shoot cost ~$3K one-time · Target: branded-search lift + IG saves + Builder-segment growth'
+    },
+    e1: {
+      buyer:'self', buyerNote:'Builder cluster · scale from July pilot',
+      headline:"Jobsite Chain · Scale",
+      type:'EXISTING /jobsite LP · ad-budget scale',
+      title:"Scale the July pilot · Labor Day adjacency",
+      dates:'Sep 1 – Sep 30',
+      tiers:[
+        { name:'T1 · Jobsite Chain', skus:['Chain 12MM','+ Founder card','+ Founder card','(same as July pilot)'], price:'$139–149', cm:'CM 63%' },
+        { name:'T2 · Jobsite Stack', skus:['Set 12MM','+ Founder card','+ Founder card','(same as July pilot)'], price:'$229', cm:'CM 65%' }
+      ],
+      message:'"Three chains snapped on the job. This is the fourth."',
+      mechanic:'Continuation + scale of July pilot. Labor Day brand-equity (Working-Man portraits) provides natural ad-creative pairing. Scale paid spend 3x on /jobsite LP. Add Builder-segment Klaviyo audience to retargeting. Pair with Labor Day organic content (founder POV on hand-finishing in London · trade-customer Reels).',
+      offerCost:'$3', offerCostX:'Same as pilot',
+      cmHit:'-2%', cmHitX:'Same as pilot',
+      ltvLift:'+segment scale', ltvLiftX:'July pilot signal validates · September scales the audience',
+      persona:'Builder cluster cold + warm retargeting',
+      emotion:'Pattern #4 + #5 · earned-everyday-wear, customer-voiced',
+      signalQuote:"Chains so durable and fit my active lifestyle",
+      signalSrc:'Loox review · daily-wear validation',
+      levinger:'Before-Named + Specificity',
+      sherif:'Rejection → Acceptance', veilance:'Z2',
+      lp:'/jobsite',
+      test:'CVR sustained vs July pilot · Builder segment % of new customers · cold prospecting CTR Builder lookalikes',
+      grad:'Sustained CVR + Builder share of new customers >15% → permanent /jobsite LP + ongoing Builder ad set + Q4 retargeting',
+      why:'July pilot validates Builder cluster as a real audience for BALANZI. Labor Day brand-equity natural moment (Working-Man portrait series) provides perfect creative pairing — same audience, same calibration. Scale 3x paid spend on proven LP with the natural moment as ad-creative anchor.',
+      content:{
+        cofounder:'Founder POV refresh based on July signal · pair with Labor Day "Hands That Made It" portrait series',
+        labart:'PRIORITY · Working-Man portrait series (Labor Day natural) · 5-6 portraits across Builder occupations (mason · electrician · welder · trucker · firefighter · chef) per persona doc',
+        ugc:'Builder cohort review continued harvest · "X years on the job" mentions'
+      },
+      status:'idea'
+    },
+    e2: {
+      buyer:'gifter', buyerNote:'Father-Son pilot continues · mid-flight signal read',
+      headline:"Father-Son · Mid-Flight Read",
+      type:'CONTINUING PILOT · decide Christmas creative',
+      title:"Continue August pilot · read signal · decide Christmas creative direction",
+      dates:'Sep 1 – Sep 30',
+      tiers:[
+        { name:'T1 · Father-Son Stack', skus:['Chain 12MM + Chain 8MM (kid length)','(same bundle as August)'], price:'$189', cm:'CM 62%' },
+        { name:'T2 · Father-Son Set', skus:['Chains + bracelets bundle','(same as August)'], price:'$279', cm:'CM 58%' }
+      ],
+      message:'"His first day. His first real chain." (test variants for Christmas)',
+      mechanic:'Continuation of August pilot through end of September. End-of-Sept read: T1 vs T2 split, AOV, ad creative winners, Mom-gifter vs Dad-gifter response rate. Decide which creative direction scales for Christmas "From Mom" treatment. NO new offer mechanics — pure signal read.',
+      offerCost:'$18', offerCostX:'Same as August',
+      cmHit:'+CM dollars', cmHitX:'Same as August',
+      ltvLift:'+Christmas readiness', ltvLiftX:'2 months of paid signal informs Christmas creative',
+      persona:'Parent → son cohort · expand sample size',
+      emotion:'Pattern #6',
+      signalQuote:"He grew up. This says so.",
+      signalSrc:'TBD from August signal data',
+      levinger:'Social Mirror', sherif:'Indifference → Action', veilance:'Z2',
+      lp:'/father-son',
+      test:'AOV · tier split · creative winner · Mom vs Dad gifter performance',
+      grad:'>100 units sold combined Aug-Sep AND clear "From Mom" creative winner → Christmas scale decision Oct 1',
+      why:'Two months of pilot signal (Aug + Sep) lets us read tier split (T1 Stack vs T2 Set), creative winner (Mom-gifter vs Dad-gifter angle), and AOV vs single-chain baseline BEFORE committing Christmas budget. De-risks the highest-LTV gift moment of the year by validating bundle demand + creative direction first.',
+      content:{
+        cofounder:'Refine cofounder POV based on Aug signal · drop weaker angles · double down on what worked',
+        labart:'Refine creative · select winning variants from Aug · pre-produce Christmas "From Mom" angle assets',
+        ugc:'Continued harvest · capture early customer reactions from Aug-Sep cohort for Christmas testimonial ads'
+      },
+      status:'idea'
+    }
+  },
+
+  /* ═══════════ OCTOBER — BFCM WAITLIST + GIFT CONCIERGE ═══════════ */
+  '2026-10': {
+    name: 'October', weeks: 'W40 → W43', sub: 'Pre-BFCM · list build + gifter prep',
+    natural: null,
+    e1: {
+      buyer:'both', buyerNote:'Self-buyer + gifter both want BFCM early access',
+      headline:"BFCM Waitlist · 48h Pre-Access",
+      type:'ACCESS MECHANIC · list build',
+      title:"Sign up = guaranteed 48h pre-access on BFCM",
+      dates:'Oct 5 – Nov 24',
+      tiers:[
+        { name:'Single tier · access promise', skus:['Email + SMS dual capture','+ Confirmation includes "2026 in Wear" PDF (founder letter + 12 best customer photos of the year)','+ Promise: BFCM goes live Wed Nov 25 12am ET for waitlist, Fri Nov 27 for public'], price:'$0', cm:'No offer cost' }
+      ],
+      singleTier:true,
+      message:'"Black Friday opens 48h early for the list."',
+      mechanic:'Standalone /bfcm-waitlist LP · email + SMS dual capture. Concrete promise of 48h pre-access (not a discount, not a coupon — actual offer-window access). Lead magnet is the "2026 in Wear" downloadable PDF — genuinely valued, not coupon-bait. Confirmation flow drips: Nov 1 reminder, Nov 15 reminder, Nov 24 "tomorrow" notice, Nov 25 launch.',
+      offerCost:'$0', offerCostX:'PDF design + Klaviyo flow + LP',
+      cmHit:'None', cmHitX:'List-build play',
+      ltvLift:'+$0.30 / list dollar', ltvLiftX:'Klaviyo benchmark · each list-dollar built generates ~$0.30 BFCM revenue',
+      persona:'BFCM-deal-aware shoppers · brand-aware (L4-L5)',
+      emotion:'Pattern #7 — Belonging ("members club" signal)',
+      signalQuote:"I feel like I am in a special members club, Balanzi family member!",
+      signalSrc:'Zigpoll loyalty verbatim',
+      levinger:'Earned Confidence + Reframe ("real BF deals are list-only")',
+      sherif:'Acceptance → Action', veilance:'Z2',
+      lp:'/bfcm-waitlist',
+      test:'Signups · open rate · waitlist CVR vs public CVR on Nov 25-27',
+      grad:'>5K signups → permanent mechanic on every major moment year-round (FDay 2027, Christmas, summer drops)',
+      why:'Klaviyo benchmark — each list-dollar built generates ~$0.30 of BFCM revenue. List growth is the cheapest CAC lever of the year. Pre-build with concrete promise (48h pre-access, not a discount) + genuinely valued lead magnet (2026 in Wear PDF · founder letter + 12 best customer photos). Pattern #7 belonging signal ("special members club" Zigpoll verbatim).',
+      content:{
+        cofounder:'Founder announcement video · "this is what we built for the list" · 2026 in Wear PDF preview · genuine, not hype',
+        labart:'PDF design (12 best customer photos of 2026 + founder letter) · simple typography for LP + email · curation of 12 customer photos for the year',
+        ugc:'Curate the 12 BEST customer photos of 2026 for the PDF · Loox + IG harvest · founder-approved'
+      },
+      status:'idea'
+    },
+    e2: {
+      buyer:'gifter', buyerNote:'Wife / partner / parent gifter · pre-BFCM indecision cohort',
+      headline:"Gift Concierge",
+      type:'SERVICE MECHANIC · no product change',
+      title:"Free 1:1 gift consultation via text/email · 24h SLA",
+      dates:'Oct 5 – Dec 17',
+      tiers:[
+        { name:'Single tier · concierge service', skus:['5-question intake form on /gift-concierge','+ 24h SLA response from real human (founder or team)','+ 1-2 specific product picks + Send-Ahead Card link','+ Free for any potential gifter regardless of purchase'], price:'$0', cm:'No offer cost' }
+      ],
+      singleTier:true,
+      message:'"Don\'t know which chain? Tell us about him. We\'ll pick."',
+      mechanic:'/gift-concierge LP with 5-question intake (his age range · what he typically wears · occasion · his style adjective · budget). Gifter submits + email/phone. Within 24h a real human (founder or trained team member) replies with 1-2 chain/Set recommendations + Send-Ahead Card option + shipping-cutoff context for her occasion. Bypasses the indecision that kills gifter checkouts mid-funnel.',
+      offerCost:'~10 min/consult', offerCostX:'Team labor · scales to ~50 consults/week',
+      cmHit:'None', cmHitX:'Service cost · drives higher-AOV picks',
+      ltvLift:'+3-5x close rate', ltvLiftX:'Stitch Fix benchmark · concierge orders close 3-5x normal gifter CVR',
+      persona:'Indecisive wife / partner / parent gifter · the cohort that bounces during BFCM browse',
+      emotion:'Pattern #6 — removes "what if I picked wrong" anxiety',
+      signalQuote:"I want him to be very excited about it. Because it's a gift.",
+      signalSrc:'Zigpoll gifter free-text · validation-relief anchor',
+      levinger:'Specificity (real human reply, named recommendation) + Earned Confidence',
+      sherif:'Indifference (overwhelmed) → Acceptance', veilance:'Z2',
+      lp:'/gift-concierge',
+      test:'Consult requests · close rate vs baseline gifter CVR · AOV of concierge orders · NPS lift',
+      grad:'>50 consults/week sustainable AND close rate >40% AND AOV >$200 → permanent always-on year-round · team-scale infrastructure',
+      why:'Wife/parent gifter = 21-37% of orders but is the highest-AOV cohort. Indecision is the #1 gifter conversion blocker — she doesn\'t know which chain to pick. Stitch Fix benchmark: concierge orders close at 3-5x normal gifter CVR. Cheap to test (~10 min team time per consult). Pre-BFCM is the surge window when gifters most need help — without concierge, she bounces.',
+      content:{
+        cofounder:'Founder demonstrating the service · mini-scenario · "tell me about him" walk-through · authentic, warm',
+        labart:'Service-explainer graphics for LP · simple icon system for the 5 intake questions · NO product photography needed',
+        ugc:'After-purchase testimonial harvest · gifters who used concierge · "I picked it but with help" angle'
+      },
+      status:'idea'
+    }
+  },
+
+  /* ═══════════ NOVEMBER — BFCM + BROTHERHOOD + SEND-AHEAD GATE #2 ═══════════ */
+  '2026-11': {
+    name: 'November', weeks: 'W44 → W47', sub: 'BFCM · Veterans Day Brotherhood · gifter double-down',
+    doubledown: true,
+    doubledownLabel: 'GIFTER DOUBLE-DOWN · BFCM is heavy-gift · Brotherhood + Send-Ahead Cyber both serve gifters',
+    natural: {
+      name: 'BFCM + Founders Circle 48h Pre-Wave · IN PROGRESS',
+      when: 'Nov 25 (pre-wave) → Dec 1 · public Nov 27',
+      offer: 'TBD · founder to finalize · biggest moment of the year, offer being designed',
+      offerSub: 'IN PROGRESS · not committing to 2-free-products until founder review · candidates: free crucifix pendant · matching bracelet · structural bundle pricing on Chain Stacks · founder evaluating',
+      pricePush: 'Hold June price push · no additional lift expected',
+      pricePushWhy: 'Prices already adjusted in June · BFCM gives back structurally, not via discount',
+      econ: 'TBD pending offer lock · Target band $250K-$400K depending on mechanic chosen · Floor 2.0x ROAS'
+    },
+    e1: {
+      buyer:'both', buyerNote:'Service cluster · 855 customers · Veterans Day natural moment',
+      headline:"The Brotherhood Chain",
+      type:'NEW LP · existing SKUs + dignity-coded packaging',
+      title:"Veterans Day · Service cluster moment · no new pendant SKU",
+      dates:'Nov 5 – Nov 12',
+      tiers:[
+        { name:'T1 · The Brotherhood Chain', skus:['Chain 12MM ($139–149 w/ push)','+ Free service-year insert (customer fills "Served 1989-2019" or "Brother since \'03")','+ Founder letter'], price:'$139–149', cm:'CM 63%' },
+        { name:'T2 · The Brotherhood Stack', skus:['Cuban Set 12MM ($229 w/ push)','+ Free service-year insert','+ Founder letter','+ Free crucifix pendant charm'], price:'$229', cm:'CM 64%' }
+      ],
+      message:'"What you wore when it counted. Quietly. Off-duty. Still on."',
+      mechanic:'NEW /brotherhood LP timed to Veterans Day (Nov 11). Uses existing chains + existing crucifix pendant (no new pendant SKU — we don\'t have time to build one this year). Service-year insert is customer-filled at checkout. Founder letter is printed thank-you. Calibration per persona doc: DIGNITY, no flag overlay, no patriotism cliché, no duty-porn — reference service obliquely (gear-on-hook, coffee mug, hands). 855 customers in Service cluster (Public Safety + Military + Veteran + Pastor + Healthcare) currently underweighted in creative.',
+      offerCost:'$5', offerCostX:'Insert + founder letter + crucifix for T2',
+      cmHit:'-3%', cmHitX:'On $139 chain · still 60% CM after',
+      ltvLift:'+new segment', ltvLiftX:'855-customer Service cluster + 277 G3 cluster currently fragmented',
+      persona:'Service cluster · Public Safety + Military + Veteran + Pastor + Healthcare',
+      emotion:'Earned pride · brotherhood · quiet dignity (Pattern #5 calibrated to service)',
+      signalQuote:"My last chain was on for 14 years.",
+      signalSrc:'Loox review verbatim · Service cluster register',
+      levinger:'Social Mirror (the men/women who serve) + Earned Confidence',
+      sherif:'Acceptance → Action', veilance:'Z2',
+      lp:'/brotherhood',
+      test:'CVR · Service-segment %  of buyers · Klaviyo Service segment growth · sentiment in reviews',
+      grad:'CVR >baseline AND Service segment surfaces as distinct cohort in OuterSignal → permanent /brotherhood LP · Memorial Day + Veterans Day annual moments + year-round service-coded ads',
+      why:'Service cluster = 855 customers across Public Safety + Military + Veteran + Faith + Healthcare. Persona doc dignity-coded calibration is the unique creative angle vs every competitor\'s flag/duty-porn approach. Veterans Day (Nov 11) is the natural moment, 2 weeks before BFCM so no conflict. Existing crucifix pendant doubles as brotherhood charm (faith + service overlap) — no new SKU build needed.',
+      content:{
+        cofounder:'Cofounder POV on the Service cluster · dignity-coded · founder personal connection if any (family member who served, etc.) · NO patriotism cliché',
+        labart:'PRIORITY · Service cluster documentary · Veterans · Military · Faith leaders · Public Safety · firefighter · police · "gear-on-hook, coffee mug, hands" calibration · NO flag overlay · NO duty-porn',
+        ugc:'Service customer review harvest · search Loox/Judge.me for "Veteran" "Military" "served" "first responder" mentions · curate respectfully'
+      },
+      status:'idea'
+    },
+    e2: {
+      buyer:'gifter', buyerNote:'Late-window Cyber Monday gifter · graduation gate #2 of 3',
+      headline:"Send-Ahead Cyber Card",
+      type:'DIGITAL MECHANIC · gate #2 of 3',
+      title:"2nd application of mechanic after FDay · proves it works beyond one moment",
+      dates:'Dec 1 – Dec 2 (post-Cyber-cutoff)',
+      tiers:[
+        { name:'Single tier · same mechanic as FDay', skus:['Post-cutoff modal triggers','+ Cyber/Christmas card art variants','+ Customer customizes + sets delivery time','+ Card sends digitally · chain ships normally'], price:'$0 add', cm:'No AOV impact' }
+      ],
+      singleTier:true,
+      message:'"Cyber Monday closes tonight. Your card sends in 60 seconds. The chain ships Tuesday."',
+      mechanic:'Same Send-Ahead Card mechanic from June FDay test. Dev already built. Post-cutoff (Dec 1 11:59pm ET) checkout modal triggers. Christmas / Cyber card variants. SECOND graduation gate of 3 — if it worked at FDay AND works at Cyber, it\'s a confirmed evergreen candidate, then Christmas seals it.',
+      offerCost:'$0', offerCostX:'Already-built Klaviyo + LP',
+      cmHit:'None', cmHitX:'AOV preserved',
+      ltvLift:'Graduation gate #2', ltvLiftX:'Second proof point · validates mechanic beyond FDay',
+      persona:'Late-window BFCM gifter · holiday cohort',
+      emotion:'Pattern #6 — Wife picks right',
+      signalQuote:'TBD from June FDay test result',
+      signalSrc:'June Send-Ahead pilot data',
+      levinger:'Reframe', sherif:'Indifference → Action', veilance:'Z2',
+      lp:'/send-ahead-card',
+      test:'% post-cutoff carts using mechanic · cumulative signal across FDay + Cyber',
+      grad:'Second consecutive >15% adoption → graduation candidate (need 3rd at Christmas to seal year-round 6-occasion variants)',
+      why:'Gate #2 of 3 — proves the FDay mechanic works beyond a single moment. If FDay AND Cyber both clear >15% adoption, Christmas Gate #3 seals year-round graduation with 6 occasion variants. Same flow, different occasion artwork — zero new dev cost. Cumulative signal across 3 windows = the strictest possible graduation test.',
+      content:{
+        cofounder:'Cyber variant of June FDay explainer · founder POV "if you missed Cyber Monday cutoff" · 30-sec',
+        labart:'Cyber Week + Christmas card design variants · 4-6 design options per occasion',
+        ugc:'Reuse FDay Send-Ahead testimonials with Cyber framing'
+      },
+      status:'idea'
+    }
+  },
+
+  /* ═══════════ DECEMBER — CHRISTMAS + FATHER-SON FROM MOM + SEND-AHEAD GATE #3 ═══════════ */
+  '2026-12': {
+    name: 'December', weeks: 'W48 → W52', sub: 'Christmas · Father-Son SCALE · gifter double-down',
+    doubledown: true,
+    doubledownLabel: 'GIFTER DOUBLE-DOWN · Christmas · MOMS buying for sons (per founder signal) · both slots serve gifters',
+    natural: {
+      name: 'Christmas + NYE · IN PROGRESS',
+      when: 'Dec 14 → Dec 25 · ship cutoff Dec 17 · search peaks Dec 14-20',
+      offer: 'TBD · inherits BFCM mechanic once finalized',
+      offerSub: 'IN PROGRESS · Christmas typically reapplies the BFCM stack but offer locks downstream from BFCM founder review',
+      pricePush: 'Hold June price push · consistent Q4 pricing',
+      pricePushWhy: 'June lock holds through year-end',
+      econ: 'TBD pending BFCM offer lock · Target band $150-200K · Cash gate not relevant (post-BFCM)'
+    },
+    e1: {
+      buyer:'gifter', buyerNote:'MOMS buying for sons (founder signal · #1 Christmas cohort)',
+      headline:"Father-Son Bundle · From Mom",
+      type:'SCALE Aug-Sep pilot · refined creative',
+      title:"Christmas scale of the Aug-Sep pilot · MOM creative focus",
+      dates:'Dec 1 – Dec 17 (ship-by) + Dec 18-25 gift-card-flow',
+      tiers:[
+        { name:'T1 · Father-Son Stack', skus:['Chain 12MM (son) + Chain 8MM (younger son or partner)','+ Free dual-slot gift box · MOM-themed insert','+ Optional milestone card · "From Mom" default'], price:'$189', cm:'CM 62%' },
+        { name:'T2 · Father-Son Set', skus:['2 chains + 2 matching bracelets','+ Dual-slot box · MOM insert','+ Milestone card + Send-Ahead Card option'], price:'$279', cm:'CM 58%' }
+      ],
+      message:'"His first real chain. From Mom."',
+      mechanic:'SCALE the August-September Father-Son pilot at Christmas with refined "From Mom" creative direction (informed by pilot signal). Marketing leans hard on Mom-gifter cohort (123+ identified · ZERO current ads · founder signal "moms buying most for sons last Christmas"). Bundle SKU unchanged from pilot — just creative angle + packaging insert default "From Mom." Secondary creative: "From Dad." Bundle works for either gifter, marketing tests which angle outperforms.',
+      offerCost:'$18 + $3 box', offerCostX:'2-chain COGS + dual-slot box',
+      cmHit:'+CM dollars', cmHitX:'$189-279 bundle vs single-chain $129',
+      ltvLift:'+Christmas hero SKU', ltvLiftX:'Tests if Father-Son becomes permanent year-round legacy SKU',
+      persona:'MOM gifter (123+) primary · DAD gifter secondary · G3 SE father cohort',
+      emotion:'Pattern #6 — Mom picks right · "I gave him his first real chain"',
+      signalQuote:"I know my grandson will feel like a KING!",
+      signalSrc:'Zigpoll grandmother gifter verbatim',
+      levinger:'Social Mirror (parent sees themselves) + Specificity (real gauges, real lengths)',
+      sherif:'Acceptance → Action', veilance:'Z2',
+      lp:'/father-son',
+      test:'Bundle units sold Christmas window · "From Mom" vs "From Dad" creative split · AOV vs single-chain · review submission rate of Father-Son cohort',
+      grad:'>200 units sold Christmas + Mom-gifter creative wins → permanent /father-son SKU year-round + dedicated Mom-gifter creative engine + 2027 graduation moment activation',
+      why:'Founder confirmed: moms-buying-for-sons was the #1 Christmas cohort last year. Mom-gifter persona = 123+ customers in OuterSignal data (likely larger in actual purchase data) with ZERO current creative built for them. Father-Son Bundle (validated in Aug-Sep pilot) is the EXACT product fit. Christmas is BALANZI\'s highest-LTV gift moment of the year — the missing creative direction is "From Mom."',
+      content:{
+        cofounder:'PRIORITY · Cofounder POV on moms-buying-for-sons · could feature his own mom or wife with their son(s) if appropriate · "this is the moment we want to honor" · NOT hype, NOT promo',
+        labart:'PRIORITY · Mom-Son lifestyle · mother + adult or teen son · Christmas-coded (warm light, holiday context, NOT cheese) · Father-Son Set in dual-slot box with "From Mom" insert visible',
+        ugc:'Mom-gifter review harvest · search "from mom" "my son" "Christmas" "graduation" mentions · resurface as ad creative'
+      },
+      status:'idea'
+    },
+    e2: {
+      buyer:'gifter', buyerNote:'Last-minute Christmas gifter · graduation gate #3 of 3 (FINAL)',
+      headline:"Send-Ahead Christmas Card",
+      type:'DIGITAL MECHANIC · gate #3 of 3 · graduation seal',
+      title:"3rd consecutive moment · seals year-round status",
+      dates:'Dec 18 – Dec 25',
+      tiers:[
+        { name:'Single tier · final graduation gate', skus:['Post Dec 17 ship-cutoff modal','+ Christmas card art variants','+ Customer customizes + delivers Christmas morning','+ Chain ships Tuesday after'], price:'$0 add', cm:'No AOV impact' }
+      ],
+      singleTier:true,
+      message:'"Christmas Eve. Your card arrives Christmas morning. The chain arrives Tuesday."',
+      mechanic:'Third application of Send-Ahead Card mechanic. Post Dec 17 ship-cutoff modal trigger. Christmas-themed card variants. If all 3 windows (FDay + Cyber + Christmas) clear >15% adoption → mechanic graduates to YEAR-ROUND with 6 occasion variants (FDay · Mother\'s Day · Anniversary · Birthday · Christmas · Just-Because).',
+      offerCost:'$0', offerCostX:'Dev already built',
+      cmHit:'None', cmHitX:'AOV preserved',
+      ltvLift:'Graduation gate #3', ltvLiftX:'Third proof point seals year-round',
+      persona:'Last-minute Christmas gifter',
+      emotion:'Pattern #6 — Validation-relief under deadline pressure',
+      signalQuote:'TBD from cumulative FDay + Cyber data',
+      signalSrc:'June + November test data',
+      levinger:'Reframe', sherif:'Indifference → Action', veilance:'Z2',
+      lp:'/send-ahead-card',
+      test:'Cumulative adoption across all 3 moments · gift-recipient NPS lift',
+      grad:'All 3 moments clear >15% adoption → Send-Ahead Card goes FULL EVERGREEN with 6 occasion variants year-round (FDay · Mother\'s Day · Anniversary · Birthday · Christmas · Just-Because)',
+      why:'Final graduation gate. If this clears, Send-Ahead Card goes year-round with 6 occasion variants — every major BALANZI gifting moment + the Just-Because evergreen entry. Christmas Eve is the highest-pressure last-minute gifter moment of the year. If the mechanic works HERE, it works everywhere.',
+      content:{
+        cofounder:'Christmas variant of explainer · "Christmas Eve, here\'s what we built for you" · 30-sec',
+        labart:'Christmas card design variants · 6-8 holiday card options',
+        ugc:'Reuse FDay + Cyber Send-Ahead testimonials with Christmas framing'
+      },
+      status:'idea'
+    }
+  }
+};
+
+const STATUS_OPTIONS = ['idea','briefed','testing','live','done','graduated','killed'];
+
+let state = JSON.parse(JSON.stringify(SEED));
+try{
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if(stored){ state = JSON.parse(stored); }
+}catch(e){}
+
+const $months = document.getElementById('months');
+const $save = document.getElementById('save-status');
+
+function setSaved(label){
+  $save.textContent = label;
+  setTimeout(()=>{ $save.textContent = '● saved'; }, 1500);
+}
+function save(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+  setSaved('● saved · ' + new Date().toLocaleTimeString());
+  updateMetaStat();
+}
+function updateMetaStat(){
+  let filled = 0, total = 0, graduated = 0;
+  Object.values(state).forEach(m => {
+    ['e1','e2'].forEach(k => {
+      total++;
+      if(m[k] && m[k].headline && m[k].headline.trim()) filled++;
+      if(m[k] && m[k].status === 'graduated') graduated++;
+    });
+  });
+  const el = document.getElementById('meta-stat');
+  if(el) el.textContent = `${filled}/${total} offers · ${graduated} graduated`;
+}
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+
+function tierBlock(m){
+  if(!m.tiers || !m.tiers.length) return '';
+  const single = m.singleTier || m.tiers.length === 1;
+  return `
+    <div class="tiers-block">
+      <div class="tiers-label">${single ? 'The Offer' : 'The Bundle · 2 Tiers'}</div>
+      <div class="tiers-grid ${single?'single':''}">
+        ${m.tiers.map(t => `
+          <div class="tier">
+            <div class="tier-name">${esc(t.name)}</div>
+            <div class="tier-skus">${(t.skus||[]).map(s => `<div>${esc(s)}</div>`).join('')}</div>
+            <div class="tier-price">
+              <span class="p">${esc(t.price)}</span>
+              <span class="cm">${esc(t.cm)}</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function momentEl(monthKey, slotKey){
+  const m = state[monthKey][slotKey];
+  const hasContent = m && m.headline && m.headline.trim();
+  const cls = ['moment'];
+  if(!hasContent) cls.push('empty');
+  if(m && m.status === 'graduated') cls.push('graduated');
+
+  const el = document.createElement('div');
+  el.className = cls.join(' ');
+
+  if(!hasContent){
+    el.innerHTML = `
+      <div class="moment-head">
+        <span class="moment-slot">Engineered moment · slot ${slotKey==='e1'?'1':'2'}</span>
+      </div>
+      <div class="moment-empty-cta"><strong>Empty slot</strong>Add an offer · pull from backlog</div>
+    `;
+    return el;
+  }
+
+  const buyerClass = m.buyer || 'self';
+  const buyerLabel = buyerClass === 'gifter' ? 'GIFTER' : buyerClass === 'both' ? 'SELF + GIFT' : 'SELF-BUYER';
+
+  el.innerHTML = `
+    <div class="moment-head">
+      <span class="moment-slot">Engineered · slot ${slotKey==='e1'?'1':'2'}</span>
+      <select class="moment-status" data-month="${monthKey}" data-slot="${slotKey}" data-field="status">
+        ${STATUS_OPTIONS.map(s => `<option value="${s}" ${m.status===s?'selected':''}>${s}</option>`).join('')}
+      </select>
+    </div>
+
+    <div class="buyer-badge-row">
+      <span class="buyer-badge ${buyerClass}">${buyerLabel}</span>
+      <span class="buyer-meta">${esc(m.buyerNote || '')}</span>
+    </div>
+
+    <div class="offer-block">
+      <div class="offer-label">The Offer</div>
+      ${m.type ? `<div class="type-tag">${esc(m.type)}</div>` : ''}
+      <div class="offer-headline">${esc(m.headline)}</div>
+      <div class="offer-title">${esc(m.title)} · ${esc(m.dates)}</div>
+    </div>
+
+    ${tierBlock(m)}
+
+    <div class="message-block">
+      <div class="message-label">The Message · what they hear</div>
+      <div class="message-text">${esc(m.message)}</div>
+    </div>
+
+    <div class="mechanic-block">
+      <div class="mechanic-label">How it works</div>
+      <div class="mechanic-text">${esc(m.mechanic)}</div>
+    </div>
+
+    ${m.why ? `<div class="why-block"><div class="why-label">Why · signal grounding</div><div class="why-text">${esc(m.why)}</div></div>` : ''}
+
+    <div class="econ-strip">
+      <div class="econ-cell">
+        <div class="l">Offer cost</div>
+        <div class="v">${esc(m.offerCost)}</div>
+        <div class="x">${esc(m.offerCostX)}</div>
+      </div>
+      <div class="econ-cell">
+        <div class="l">CM impact</div>
+        <div class="v">${esc(m.cmHit)}</div>
+        <div class="x">${esc(m.cmHitX)}</div>
+      </div>
+      <div class="econ-cell">
+        <div class="l">LTV signal</div>
+        <div class="v">${esc(m.ltvLift)}</div>
+        <div class="x">${esc(m.ltvLiftX)}</div>
+      </div>
+    </div>
+
+    <div class="tags-row">
+      <span class="tag-pill solid">Levinger · ${esc(m.levinger.split(' ')[0])}</span>
+      <span class="tag-pill">Sherif · ${esc(m.sherif)}</span>
+      <span class="tag-pill">${esc(m.veilance.split(' ')[0])}</span>
+    </div>
+
+    <div class="meta-block">
+      <div class="meta-row"><div class="l">Persona</div><div class="v">${esc(m.persona)}</div></div>
+      <div class="meta-row"><div class="l">Emotion</div><div class="v">${esc(m.emotion)}</div></div>
+      <div class="meta-row"><div class="l">Signal</div><div class="v"><div class="signal-quote">"${esc(m.signalQuote)}"<span class="src">— ${esc(m.signalSrc)}</span></div></div></div>
+      <div class="meta-row"><div class="l">LP</div><div class="v">${esc(m.lp)}</div></div>
+      <div class="meta-row"><div class="l">Test</div><div class="v">${esc(m.test)}</div></div>
+    </div>
+
+    <div class="grad-block">
+      <div class="grad-label">Graduate when</div>
+      <div class="grad-text">${esc(m.grad)}</div>
+    </div>
+
+    ${m.content ? `
+    <div class="content-block">
+      <div class="content-label">Content needed · 3 sources</div>
+      <div class="content-row">
+        <div class="src">Cofounder</div>
+        <div class="what">${esc(m.content.cofounder)}</div>
+      </div>
+      <div class="content-row">
+        <div class="src">Lab Art</div>
+        <div class="what">${esc(m.content.labart)}</div>
+      </div>
+      <div class="content-row">
+        <div class="src">UGC</div>
+        <div class="what">${esc(m.content.ugc)}</div>
+      </div>
+    </div>` : ''}
+
+    <div class="moment-actions">
+      <button class="btn" data-graduate="${monthKey}|${slotKey}">${m.status==='graduated'?'✓ Graduated':'Mark graduated'}</button>
+    </div>
+  `;
+  return el;
+}
+
+function render(){
+  $months.innerHTML = '';
+  Object.entries(state).forEach(([key, m]) => {
+    const section = document.createElement('section');
+    section.className = 'month';
+    section.dataset.key = key;
+    section.id = 'month-' + key;
+
+    section.innerHTML = `
+      <div class="month-head">
+        <div class="month-name">${esc(m.name)}<span class="sub">${esc(m.sub)}</span></div>
+        <div class="month-weeks">${esc(m.weeks)}</div>
+      </div>
+      ${m.doubledown ? `<div class="doubledown"><strong>Double-down</strong> · ${esc(m.doubledownLabel)}</div>` : ''}
+      ${m.natural ? `
+        <div class="natural">
+          <div class="tag">Natural peak · LOCKED</div>
+          <div class="row1">
+            <div class="name">${esc(m.natural.name)}</div>
+            <div class="when">${esc(m.natural.when)}</div>
+          </div>
+          <div class="offer-row">
+            <div class="l">The offer</div>
+            <div class="v">${esc(m.natural.offer)}<em>${esc(m.natural.offerSub)}</em></div>
+          </div>
+          ${m.natural.pricePush ? `
+          <div class="offer-row">
+            <div class="l">Price push</div>
+            <div class="v">${esc(m.natural.pricePush)}<em>${esc(m.natural.pricePushWhy)}</em></div>
+          </div>` : ''}
+          <div class="econ">${esc(m.natural.econ)}</div>
+        </div>
+      ` : `
+        <div style="font-size:11.5px;color:var(--mid);font-style:italic;margin-bottom:12px;padding:10px 0;border-bottom:1px dashed var(--line)">No natural peak this month — both engineered moments carry full attention.</div>
+      `}
+      <div class="moments" id="moments-${key}"></div>
+    `;
+    $months.appendChild(section);
+    const slotWrap = section.querySelector(`#moments-${key}`);
+    slotWrap.appendChild(momentEl(key,'e1'));
+    slotWrap.appendChild(momentEl(key,'e2'));
+  });
+  updateMetaStat();
+}
+
+render();
+
+$months.addEventListener('click', (e) => {
+  const grad = e.target.closest('[data-graduate]');
+  if(grad){
+    const [mk, sk] = grad.dataset.graduate.split('|');
+    state[mk][sk].status = state[mk][sk].status === 'graduated' ? 'idea' : 'graduated';
+    save();
+    render();
+  }
+});
+
+$months.addEventListener('change', (e) => {
+  const t = e.target;
+  if(t.classList.contains('moment-status')){
+    const mk = t.dataset.month, sk = t.dataset.slot;
+    state[mk][sk].status = t.value;
+    save();
+    render();
+  }
+});
+
+updateMetaStat();
+$save.textContent = '● saved';
+
+})();
+</script>
+</body>
+</html>
