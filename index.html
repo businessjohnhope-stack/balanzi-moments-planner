@@ -1527,5 +1527,518 @@ $save.textContent = '● saved';
 
 })();
 </script>
+
+<style id="planner-enhancements-css">
+  /* Editable-text indicators */
+  [data-editable="true"] {
+    cursor: default;
+    transition: background 0.15s, border-color 0.15s;
+    border-bottom: 1px dashed transparent;
+  }
+  body.edit-mode-on [data-editable="true"] {
+    cursor: text;
+    border-bottom-color: rgba(176,119,0,0.35);
+  }
+  body.edit-mode-on [data-editable="true"]:hover {
+    border-bottom-color: rgba(176,119,0,0.7);
+    background: rgba(255,230,130,0.10);
+  }
+  body.edit-mode-on [data-editable="true"]:focus {
+    outline: none;
+    background: rgba(255,230,130,0.22);
+    border-bottom-color: rgba(176,119,0,1);
+  }
+
+  /* Floating action buttons (right side, stacked) */
+  .planner-fab {
+    position: fixed;
+    bottom: 24px;
+    z-index: 999;
+    border: none;
+    border-radius: 100px;
+    padding: 13px 20px;
+    font: 800 12px/1 Inter, sans-serif;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .planner-fab:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.26); }
+  #notes-fab {
+    right: 24px;
+    background: #0E0C0A;
+    color: #F4F2EE;
+  }
+  #edit-fab {
+    right: 162px;
+    background: #FFFFFF;
+    color: #0E0C0A;
+    border: 1.4px solid #0E0C0A;
+  }
+  #edit-fab.active {
+    background: #FFE682;
+    border-color: #B07700;
+    color: #0E0C0A;
+  }
+
+  /* Notes drawer */
+  .notes-drawer {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 440px;
+    max-width: 96vw;
+    background: #FFFFFF;
+    box-shadow: -16px 0 40px rgba(0,0,0,0.18);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    font-family: Inter, sans-serif;
+  }
+  .notes-drawer.open { transform: translateX(0); }
+  .notes-drawer .nh {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #E4DDD0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .notes-drawer .nh h3 {
+    margin: 0;
+    font: 800 18px/1.1 Inter, sans-serif;
+    color: #0E0C0A;
+  }
+  .notes-drawer .nh .saved-ind {
+    font: 500 11px/1 Inter, sans-serif;
+    color: #6FA48A;
+    margin-left: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .notes-drawer .nh .saved-ind.visible { opacity: 1; }
+  .notes-drawer .close-x {
+    cursor: pointer;
+    font: 300 28px/1 Inter, sans-serif;
+    color: #5e554a;
+    padding: 0 6px;
+  }
+  .notes-drawer .close-x:hover { color: #0E0C0A; }
+
+  .notes-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid #E4DDD0;
+    padding: 0 24px;
+    background: #F4F2EE;
+  }
+  .notes-tab {
+    padding: 12px 16px;
+    font: 700 11px/1 Inter, sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #7d6f5e;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .notes-tab.active {
+    color: #0E0C0A;
+    border-bottom-color: #0E0C0A;
+  }
+  .notes-tab:hover { color: #0E0C0A; }
+
+  .notes-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px 24px;
+  }
+  .notes-body p.lead {
+    margin: 0 0 12px 0;
+    font: 400 12.5px/1.5 Inter, sans-serif;
+    color: #7d6f5e;
+  }
+  .notes-body textarea {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 280px;
+    padding: 12px 14px;
+    border: 1px solid #C9C0B3;
+    font: 400 14px/1.55 Inter, sans-serif;
+    color: #0E0C0A;
+    resize: vertical;
+    background: #F8F6F1;
+  }
+  .notes-body textarea:focus {
+    outline: none;
+    border-color: #0E0C0A;
+    background: #FFFFFF;
+  }
+
+  .month-notes-item {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #F0EBE2;
+  }
+  .month-notes-item:last-child { border-bottom: none; }
+  .month-notes-item h4 {
+    margin: 0 0 8px 0;
+    font: 800 13px/1.2 Inter, sans-serif;
+    color: #0E0C0A;
+    letter-spacing: -0.01em;
+  }
+  .month-notes-item h4 .sub {
+    font: 400 italic 11.5px/1.2 Inter, sans-serif;
+    color: #7d6f5e;
+    margin-left: 6px;
+  }
+  .month-notes-item textarea {
+    min-height: 70px;
+    font-size: 13px;
+  }
+
+  .notes-actions {
+    border-top: 1px solid #E4DDD0;
+    padding: 14px 24px;
+    display: flex;
+    gap: 8px;
+    background: #F4F2EE;
+  }
+  .notes-actions button {
+    flex: 1;
+    padding: 10px 12px;
+    font: 700 11px/1 Inter, sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid #0E0C0A;
+    background: #FFFFFF;
+    color: #0E0C0A;
+    cursor: pointer;
+    border-radius: 0;
+  }
+  .notes-actions button.primary {
+    background: #0E0C0A;
+    color: #F4F2EE;
+  }
+  .notes-actions button:hover { opacity: 0.85; }
+
+  /* Help banner on first visit */
+  .planner-help-banner {
+    position: fixed;
+    bottom: 86px;
+    right: 24px;
+    z-index: 998;
+    background: #0E0C0A;
+    color: #F4F2EE;
+    padding: 12px 16px;
+    font: 400 12.5px/1.4 Inter, sans-serif;
+    max-width: 300px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    display: none;
+  }
+  .planner-help-banner.show { display: block; }
+  .planner-help-banner b { color: #FFE682; font-weight: 700; }
+  .planner-help-banner .dismiss {
+    margin-top: 8px;
+    color: #A8A09A;
+    font-size: 11px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+</style>
+
+
+<script id="planner-enhancements-js">
+(() => {
+  const EDITS_KEY = 'balanzi-moments-edits-v1';
+  const NOTES_KEY = 'balanzi-moments-notes-v1';
+  const HELP_KEY  = 'balanzi-moments-help-dismissed-v1';
+
+  let edits = {};
+  let notes = { global: '', perMonth: {} };
+  let editMode = false;
+  let savedTimer;
+
+  try { edits = JSON.parse(localStorage.getItem(EDITS_KEY) || '{}'); } catch(e) {}
+  try { notes = JSON.parse(localStorage.getItem(NOTES_KEY) || '{"global":"","perMonth":{}}'); } catch(e) {}
+  if (!notes.perMonth) notes.perMonth = {};
+
+  // Selectors safe to make editable (NOT inside #months which re-renders from state)
+  const EDITABLE_SELECTORS = [
+    'header.top h1',
+    'header.top .eyebrow',
+    'header.top .lede',
+    '.principles .t',
+    '.principles .m',
+    '.catalog-ref h4',
+    '.catalog-ref li',
+    'aside .sidebar h3',
+    'aside .sidebar a',
+    'aside .sidebar p',
+    'aside.sidebar h3',
+    'aside.sidebar a',
+    'aside.sidebar p',
+    '.sidebar h3',
+    '.sidebar a',
+    '.sidebar p',
+  ];
+
+  function flashSaved() {
+    const ind = document.querySelector('.saved-ind');
+    if (!ind) return;
+    ind.classList.add('visible');
+    ind.textContent = '· saved';
+    clearTimeout(savedTimer);
+    savedTimer = setTimeout(() => ind.classList.remove('visible'), 1500);
+  }
+
+  // ─── Inline edit ───
+  function applyInlineEdit() {
+    EDITABLE_SELECTORS.forEach(sel => {
+      let nodes;
+      try { nodes = document.querySelectorAll(sel); } catch(e) { return; }
+      nodes.forEach((el, i) => {
+        if (el.closest('#months')) return;  // skip rendered moment content
+        if (el.dataset.editableWired) return;
+        const key = sel + '|' + i;
+        el.setAttribute('data-editable', 'true');
+        el.setAttribute('data-edit-key', key);
+        el.dataset.editableWired = '1';
+        if (edits[key] !== undefined && edits[key] !== el.innerHTML) {
+          el.innerHTML = edits[key];
+        }
+        el.addEventListener('blur', () => {
+          if (!editMode) return;
+          edits[key] = el.innerHTML;
+          localStorage.setItem(EDITS_KEY, JSON.stringify(edits));
+          flashSaved();
+        });
+      });
+    });
+  }
+
+  function toggleEditMode() {
+    editMode = !editMode;
+    document.body.classList.toggle('edit-mode-on', editMode);
+    document.querySelectorAll('[data-editable="true"]').forEach(el => {
+      if (editMode) el.setAttribute('contenteditable', 'true');
+      else el.removeAttribute('contenteditable');
+    });
+    const btn = document.getElementById('edit-fab');
+    btn.classList.toggle('active', editMode);
+    btn.innerHTML = editMode ? '✓ Editing on · click anywhere' : '✎ Edit text';
+  }
+
+  // ─── Notes drawer ───
+  function getMonthList() {
+    return [...document.querySelectorAll('#months .month')].map(el => {
+      const nameEl = el.querySelector('.month-name');
+      const subEl = nameEl ? nameEl.querySelector('.sub') : null;
+      const name = nameEl ? (nameEl.firstChild?.textContent?.trim() || nameEl.textContent.trim()) : el.dataset.key;
+      const sub = subEl ? subEl.textContent.trim() : '';
+      return { key: el.dataset.key, name, sub };
+    });
+  }
+
+  function buildDrawer() {
+    const months = getMonthList();
+    const drawer = document.createElement('div');
+    drawer.className = 'notes-drawer';
+    drawer.id = 'notes-drawer';
+    drawer.innerHTML = `
+      <div class="nh">
+        <h3>Notes <span class="saved-ind"></span></h3>
+        <div class="close-x" id="notes-close" title="Close">×</div>
+      </div>
+      <div class="notes-tabs">
+        <div class="notes-tab active" data-tab="global">Global</div>
+        <div class="notes-tab" data-tab="per-month">Per month (${months.length})</div>
+      </div>
+      <div class="notes-body" id="nb-global">
+        <p class="lead">Free-form notes as you review the planner. Auto-saves to this browser. Use <b>Export .md</b> to share.</p>
+        <textarea id="global-notes" placeholder="What stands out? What needs revisiting? Questions for the team..."></textarea>
+      </div>
+      <div class="notes-body" id="nb-permonth" style="display:none">
+        <p class="lead">One notes box per month. Use these for moment-specific feedback, copy tweaks, or decisions pending.</p>
+        ${months.map(m => `
+          <div class="month-notes-item">
+            <h4>${m.name}${m.sub ? ' <span class="sub">' + m.sub + '</span>' : ''}</h4>
+            <textarea data-month="${m.key}" placeholder="Notes for ${m.name}..."></textarea>
+          </div>
+        `).join('')}
+      </div>
+      <div class="notes-actions">
+        <button class="primary" id="notes-export">📥 Export .md</button>
+        <button id="notes-copy">📋 Copy</button>
+        <button id="notes-clear">Clear</button>
+      </div>
+    `;
+    document.body.appendChild(drawer);
+
+    // Load saved
+    document.getElementById('global-notes').value = notes.global || '';
+    Object.entries(notes.perMonth).forEach(([k, v]) => {
+      const ta = drawer.querySelector(`textarea[data-month="${k}"]`);
+      if (ta) ta.value = v;
+    });
+
+    // Save handlers (debounced)
+    let timer;
+    function saveSoon() {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+        flashSaved();
+      }, 300);
+    }
+    document.getElementById('global-notes').addEventListener('input', e => {
+      notes.global = e.target.value;
+      saveSoon();
+    });
+    drawer.querySelectorAll('textarea[data-month]').forEach(ta => {
+      ta.addEventListener('input', e => {
+        notes.perMonth[e.target.dataset.month] = e.target.value;
+        saveSoon();
+      });
+    });
+
+    // Tabs
+    drawer.querySelectorAll('.notes-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        drawer.querySelectorAll('.notes-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const w = tab.dataset.tab;
+        document.getElementById('nb-global').style.display = w === 'global' ? '' : 'none';
+        document.getElementById('nb-permonth').style.display = w === 'per-month' ? '' : 'none';
+      });
+    });
+
+    // Close
+    document.getElementById('notes-close').addEventListener('click', () => {
+      drawer.classList.remove('open');
+    });
+
+    // Export + copy + clear
+    document.getElementById('notes-export').addEventListener('click', exportMd);
+    document.getElementById('notes-copy').addEventListener('click', copyAll);
+    document.getElementById('notes-clear').addEventListener('click', () => {
+      if (!confirm('Clear ALL notes? This cannot be undone.')) return;
+      notes = { global: '', perMonth: {} };
+      localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+      document.getElementById('global-notes').value = '';
+      drawer.querySelectorAll('textarea[data-month]').forEach(ta => ta.value = '');
+      flashSaved();
+    });
+  }
+
+  function exportMd() {
+    const lines = ['# BALANZI Moments Planner · Notes', '', `_Exported ${new Date().toISOString().split('T')[0]}_`, ''];
+    if (notes.global && notes.global.trim()) {
+      lines.push('## Global notes', '', notes.global, '');
+    }
+    const months = getMonthList();
+    let any = false;
+    months.forEach(m => {
+      const v = notes.perMonth[m.key];
+      if (v && v.trim()) {
+        if (!any) { lines.push('## Per-month', ''); any = true; }
+        lines.push(`### ${m.name}${m.sub ? ' · ' + m.sub : ''}`, '', v, '');
+      }
+    });
+    const blob = new Blob([lines.join('\n')], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `balanzi-moments-notes-${new Date().toISOString().split('T')[0]}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function copyAll() {
+    const lines = [];
+    if (notes.global && notes.global.trim()) {
+      lines.push('— GLOBAL —', notes.global);
+    }
+    const months = getMonthList();
+    months.forEach(m => {
+      const v = notes.perMonth[m.key];
+      if (v && v.trim()) {
+        lines.push('', `— ${m.name.toUpperCase()}${m.sub ? ' · ' + m.sub : ''} —`, v);
+      }
+    });
+    const text = lines.join('\n');
+    if (!text.trim()) { alert('No notes to copy yet.'); return; }
+    navigator.clipboard.writeText(text).then(() => {
+      flashSaved();
+      const btn = document.getElementById('notes-copy');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✓ Copied';
+      setTimeout(() => btn.innerHTML = orig, 1500);
+    });
+  }
+
+  // ─── Floating buttons ───
+  function buildFAB() {
+    const editBtn = document.createElement('button');
+    editBtn.className = 'planner-fab';
+    editBtn.id = 'edit-fab';
+    editBtn.innerHTML = '✎ Edit text';
+    editBtn.addEventListener('click', toggleEditMode);
+    document.body.appendChild(editBtn);
+
+    const notesBtn = document.createElement('button');
+    notesBtn.className = 'planner-fab';
+    notesBtn.id = 'notes-fab';
+    notesBtn.innerHTML = '📝 Notes';
+    notesBtn.addEventListener('click', () => {
+      document.getElementById('notes-drawer').classList.add('open');
+      hideHelp();
+    });
+    document.body.appendChild(notesBtn);
+  }
+
+  // ─── First-visit help banner ───
+  function maybeShowHelp() {
+    if (localStorage.getItem(HELP_KEY)) return;
+    const banner = document.createElement('div');
+    banner.className = 'planner-help-banner show';
+    banner.innerHTML = `
+      Tap <b>📝 Notes</b> to take notes as you review · <b>✎ Edit text</b> to tweak any heading or copy inline. Edits + notes save to your browser.
+      <div class="dismiss" id="help-dismiss">Got it</div>
+    `;
+    document.body.appendChild(banner);
+    document.getElementById('help-dismiss').addEventListener('click', hideHelp);
+    setTimeout(hideHelp, 14000);
+  }
+  function hideHelp() {
+    const b = document.querySelector('.planner-help-banner');
+    if (b) b.classList.remove('show');
+    localStorage.setItem(HELP_KEY, '1');
+  }
+
+  // ─── Boot ───
+  function boot() {
+    applyInlineEdit();
+    buildDrawer();
+    buildFAB();
+    maybeShowHelp();
+    // Re-apply inline edit if DOM changes (defensive)
+    const obs = new MutationObserver(() => applyInlineEdit());
+    obs.observe(document.body, { childList: true, subtree: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(boot, 150));
+  } else {
+    setTimeout(boot, 150);
+  }
+})();
+</script>
+
 </body>
 </html>
